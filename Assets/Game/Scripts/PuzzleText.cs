@@ -10,7 +10,7 @@ public class PuzzleText : MonoBehaviour
     private TextMeshProUGUI _text;
     private void Awake()
     {
-        _text = GetComponent<TextMeshProUGUI>();
+        _text =GetComponent<TextMeshProUGUI>();
         FindObjectOfType<TheGameEnd>()._event.AddListener(() =>
             {
                 

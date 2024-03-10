@@ -11,6 +11,8 @@ public class Button_Play : MonoBehaviour
     private bool isChecked = false;
     private void Update()
     {
+        if(_poolOfItems == null) _poolOfItems = GameObject.Find("PoolOfItems");
+        if (_poolSpace == null) _poolSpace = GameObject.Find("PoolSpace");
         int starsAmount = PlayerPrefs.GetInt("StarsAmount");
         for (int i = 0; i < _poolOfItems.transform.childCount; i++)
         {

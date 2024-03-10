@@ -16,14 +16,15 @@ public class ForceFieldSCript : MonoBehaviour
    private Vector2 pointPosition;
    private void Awake()
    {
-      
+       winningPoints = 0;
       FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
-      {
+      { 
+          if(winningPoints>0)_forceField.transform.GetChild(winningPoints - 1).gameObject.SetActive(false);
         // _particleSystem.Clear(withChildren:true);
         // _particleSystem.Stop(withChildren:true,ParticleSystemStopBehavior.StopEmittingAndClear);
-         winningPoints = FindObjectOfType<CheckDetection>().WinningPoints();
-         if(winningPoints>0)_forceField.transform.GetChild(winningPoints - 1).gameObject.SetActive(false);
-         _forceField.transform.GetChild(winningPoints).gameObject.SetActive(true);
+         winningPoints++;
+         
+         _forceField.transform.GetChild(winningPoints - 1).gameObject.SetActive(true);
          pointPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
          //print(pointPosition);
          
@@ -39,12 +40,7 @@ public class ForceFieldSCript : MonoBehaviour
       });
    }
 
-   private void Update()
-   {
-      
-   }
-
-
+   
    IEnumerator timer()
    {
       yield return new WaitForSeconds(2f);

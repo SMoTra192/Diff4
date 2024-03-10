@@ -16,8 +16,8 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
     private UIShiny _shiny;
     private Camera mainCamera;
     Vector3 offset;
-    [SerializeField] private GameObject tempObject,positionToPoint;
-    [SerializeField] private Transform PoolOfItemsParent, TempFolderParent,PoolSpaceParent;
+    [SerializeField] private GameObject positionToPoint;
+    private GameObject PoolOfItemsParent,PoolSpaceParent;
     [SerializeField] private float multiplicatorSize = 4;
     private Vector3 position;
     private int index;
@@ -29,7 +29,8 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
     private string objIndexName;
     void Awake()
     {
-        
+        PoolOfItemsParent = GameObject.Find("PoolOfItems");
+        PoolSpaceParent = GameObject.Find("PoolSpace");
         //_shiny = transform.GetChild(0).GetComponent<UIShiny>();
         gameObject.transform.position = positionToPoint.transform.position;
         mainCamera = Camera.allCameras[0];
@@ -56,14 +57,14 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
     {
         firstPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         stats = 0;
-        for (int i = 0; i < PoolOfItemsParent.childCount; i++)
+        for (int i = 0; i < PoolOfItemsParent.transform.childCount; i++)
         {
             if (PoolOfItemsParent.transform.GetChild(i).gameObject.activeInHierarchy)
             {
                 stats += 1;
             }
         }
-        if (gameObject.transform.IsChildOf(PoolOfItemsParent))
+        if (gameObject.transform.IsChildOf(PoolOfItemsParent.transform))
             _rect.horizontalNormalizedPosition -= (firstPos.x - SecondPos.x) * (0.05f * (25/stats));
         dragPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         //print(startPos.y);
@@ -89,7 +90,7 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
         if (isStartDrag)
         {
             
-            objIndexName = $"Level_{SceneIndex()}_Name_{ObjIndex()}";
+            objIndexName = $"Level_{PlayerPrefs.GetInt("PuzzleLevelLoad")}_Name_{ObjIndex()}";
             string prefName = PlayerPrefs.GetString(objIndexName);
             if (!prefName.Contains(gameObject.name))
             {
@@ -104,9 +105,9 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
             
             //print(prefName);
             print(PlayerPrefs.GetInt("Childs"));
-            if (transform.IsChildOf(PoolOfItemsParent))
+            if (transform.IsChildOf(PoolOfItemsParent.transform))
             {
-                transform.SetParent(PoolSpaceParent);
+                transform.SetParent(PoolSpaceParent.transform);
                 FindObjectOfType<RectTransformLeft>().childOff.Invoke();
             }
             
@@ -126,7 +127,7 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
             isStartDrag = false;
             
         }
-        if (!transform.IsChildOf(PoolOfItemsParent))gameObject.transform.SetAsLastSibling();
+        if (!transform.IsChildOf(PoolOfItemsParent.transform))gameObject.transform.SetAsLastSibling();
         
         
         if(isOnDrag)
@@ -147,17 +148,7 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         
-        //if (OnEnablePoolImage.isEnable == true)
-        {
-            //transform.SetParent(PoolSpaceParent);
-               //transform.SetSiblingIndex(index);
-            //transform.SetSiblingIndex(tempObject.transform.GetSiblingIndex());//
-            //transform.position = positionToPoint.transform.position;
-               //tempObject.transform.SetParent(TempFolderParent);
-               //tempObject.transform.position = TempFolderParent.position;
             gameObject.transform.localScale /= multiplicatorSize;
-        }
-        
     }
 
     int ObjIndex()
@@ -175,25 +166,5 @@ public class ObjectMovement : MonoBehaviour , IBeginDragHandler, IDragHandler, I
         index = int.Parse(Level);
         return index;
     }
-    int SceneIndex()
-    {
-        string level = SceneManager.GetActiveScene().name;
-        string Level;
-        int index;
-        if (level.Length >= 15) Level = level.Substring(level.Length - 2);
-       else
-        {
-            Level = level.Substring(level.Length - 1);
-        }
-        
-        index = int.Parse(Level);
-        return index;
-
-    }
-
-    private void Update()
-    {
-        //int childs = PlayerPrefs.GetInt("Childs");
-        //print(childs);
-    }
+    
 }

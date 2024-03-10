@@ -14,4 +14,9 @@ public class VibrationOnEnable : MonoBehaviour
     {
         Vibration.VibrateAndroid(35);
     }
+
+    public void Vibrate()
+    {
+        Vibration.VibrateAndroid(35);
+    }
 }

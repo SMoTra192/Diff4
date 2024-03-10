@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -8,20 +9,50 @@ using Random = System.Random;
 
 public class GameStart : MonoBehaviour
 {
-    [SerializeField] private GameObject _poolOfItemsParent, _poolSpaceParent, _inGameScenePrefabParent;
+    private GameObject _poolOfItemsParent, _poolSpaceParent, _inGameScenePrefabParent;
+    private RectTransform rct;
+        [SerializeField] private GameObject _playGroung,_playgroung2;
     private string objName;
     public UnityEvent Started = new();
     private GameObject child;
     private bool isStarted = false;
+    private RectTransform _rectGameobject;
 
     private void Awake()
     {
-        int childcount = _poolOfItemsParent.transform.childCount;
-        int childcoun2 = _poolOfItemsParent.transform.childCount;
+        Vector3 position;
+        if(PlayerPrefs.GetInt("PuzzleLevelLoad") == 0) PlayerPrefs.SetInt("PuzzleLevelLoad", 1);
+        
+        _rectGameobject = Resources.Load<RectTransform>($"Levels/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/TheGameScene");
+        position = _playGroung.transform.position;//+ new Vector3(0, 0.28f, 0);
+        rct = Instantiate(_rectGameobject, position, quaternion.identity);
+        rct.transform.SetParent(_playGroung.gameObject.transform);
+        rct.sizeDelta = new Vector2(0, 0);
+        rct.transform.localScale = new Vector3(1, 1, 1);
+
+        _inGameScenePrefabParent = rct.gameObject;
+        
+        _rectGameobject = Resources.Load<RectTransform>($"Levels/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/Pool");
+        //position ;
+       rct = Instantiate(_rectGameobject,_rectGameobject.transform.position, quaternion.identity);
+       rct.transform.SetParent(_playgroung2.gameObject.transform);
+       //rct.transform.position = _playGroung.transform.position;
+       //rct.anchoredPosition = new Vector2(0, 0);
+       rct.sizeDelta = new Vector2(0, 0);
+       rct.transform.localScale = new Vector3(1, 1, 1);
+        //obj.anchoredPosition = new Vector2(0, 0);
+        _poolOfItemsParent = rct.gameObject;
+        
+        int childcount = _poolOfItemsParent.transform.GetChild(0).transform.childCount;
+        int childcoun2 = _poolOfItemsParent.transform.GetChild(0).transform.childCount;
+        _poolSpaceParent = _poolOfItemsParent.transform.GetChild(1).gameObject;
+
+
+        _poolOfItemsParent = _poolOfItemsParent.transform.GetChild(0).gameObject;
         for (int i = 0; i < childcount; ++i)
         {
             
-            objName = PlayerPrefs.GetString($"Level_{SceneIndex()}_Name_{i}");
+            objName = PlayerPrefs.GetString($"Level_{PlayerPrefs.GetInt("PuzzleLevelLoad")}_Name_{i}");
 
             for (int x = 0; x < childcoun2; x++)
             {
@@ -46,7 +77,7 @@ public class GameStart : MonoBehaviour
         int inScenePrefabChildCount2 = _inGameScenePrefabParent.transform.childCount;
         for (int i = 0; i < inScenePrefabChildCount;i++)
         {
-            objName = PlayerPrefs.GetString($"PuzzleLevel_{SceneIndex()}_InScenePrefab_{i+1}");
+            objName = PlayerPrefs.GetString($"PuzzleLevel_{PlayerPrefs.GetInt("PuzzleLevelLoad")}_InScenePrefab_{i+1}");
             print(objName);
             if (objName.Contains($"InScenePrefab_{i+1}")) Destroy(GameObject.Find($"PoolPrefab_{i+1}"));
             if (objName.Contains($"InScenePrefab_{25}"))
@@ -72,20 +103,5 @@ public class GameStart : MonoBehaviour
        Started.Invoke();
 
     }
-    
-
-    
-    public int SceneIndex()
-    {
-        string level = SceneManager.GetActiveScene().name;
-        string Level;
-        int index;
-        Level = level.Length >= 14 ? level.Substring(level.Length - 2) : level.Substring(level.Length - 1);
-
-
-        index = int.Parse(Level);
-        return index;
-    }
-
     
 }

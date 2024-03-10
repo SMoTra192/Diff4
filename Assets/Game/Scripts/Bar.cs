@@ -17,37 +17,15 @@ public class Bar : MonoBehaviour
     {
         //SceneValue = "";
         //print(SceneManager.GetActiveScene().name);
-        for (int x = 0; x < SceneManager.sceneCountInBuildSettings; x++)
-        {
-            if ($"{SceneManager.GetActiveScene().name}" == $"PuzzleLevel_{x}")
-            {
-                isFoundSceneName = true;
-                //print("isFoundSceneName");
-                //print(SceneManager.GetActiveScene().name);
-                //print($"PuzzleLevel_{x}");
-            }
-        }
-        for (int i = 0; i < 3; ++i)
-        {
-            if (!isFoundSceneName)
-            {
-              // print("true");
-               SceneValue = $"PuzzleLevel_{gameObject.transform.parent.transform.parent.GetSiblingIndex() + 1}_Value";
-              // print(SceneValue);
-               isFound = true;
-            }
-            
-            else
-            {
-                SceneValue = $"{SceneManager.GetActiveScene().name}_Value";
-                //print(SceneValue);
-                isFound = true;
-            }
-        }
+
         
-        
-        
+            SceneValue = $"PuzzleLevel_{PlayerPrefs.GetInt("CompletedPuzzleLevels")}_Value";
+
     }
+        
+        
+        
+    
 
     private void Update()
     {

@@ -14,6 +14,7 @@ public class CheckDetection : MonoBehaviour
         index = 0;
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
+            print("Hello");
             if (index < gameObject.transform.childCount)
             {
                 check = gameObject.transform.GetChild(index);
@@ -37,10 +38,7 @@ public class CheckDetection : MonoBehaviour
         return index;
     }
 
-    public int PointsToWin()
-    {
-        return gameObject.transform.childCount;
-    }
+    
 
     
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StarsText : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _starsText;
+    [SerializeField] private TextMeshProUGUI[] _starsText;
     private int  starsAmount;
 
     
@@ -14,8 +14,13 @@ public class StarsText : MonoBehaviour
     {
         
         starsAmount = PlayerPrefs.GetInt("StarsAmount");
+
+        foreach (var _starsText in _starsText)
+        {
+            _starsText.text = $"{starsAmount}";
+        }
+
         
-        _starsText.text = $"{starsAmount}";
         
     }
 }

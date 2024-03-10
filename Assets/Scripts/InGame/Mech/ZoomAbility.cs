@@ -1,5 +1,9 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ZoomAbility : MonoBehaviour 
@@ -24,25 +28,69 @@ public class ZoomAbility : MonoBehaviour
 
     private bool isHintPressed = false;
     private int firstId;
+    
+    
+    private bool inFound = false;
+    private bool isInit = false;
+    private LevelImagesInstance _spot;
+    public UnityEvent initialised = new();
     private void Awake()
     {
+        initialised.AddListener(() =>
+        {
+            isInit = true;
+        });
+        if (SceneManager.GetActiveScene().name == "Level_1")
+        {
+            _spot = GameObject.Find("Canvas").GetComponent<LevelImagesInstance>();
+            _spot.onSpot.AddListener(() =>
+            {
+                _firstImage = FindObjectOfType<FirstPicture>().GetComponent<Image>();
+                _secondImage = FindObjectOfType<SecondPicture>().GetComponent<Image>();
+                _value = zoomOutMax;
         
-        _value = zoomOutMax;
-        
-        minX = _firstImage.transform.position.x - _firstImage.sprite.bounds.size.x/2;
-        maxX = _firstImage.transform.position.x + _firstImage.sprite.bounds.size.x/2;
-        minY = _firstImage.transform.position.y - _firstImage.sprite.bounds.size.y/2;
-        maxY = _firstImage.transform.position.y + _firstImage.sprite.bounds.size.y/2;
+                minX = _firstImage.transform.position.x - _firstImage.sprite.bounds.size.x/2;
+                maxX = _firstImage.transform.position.x + _firstImage.sprite.bounds.size.x/2;
+                minY = _firstImage.transform.position.y - _firstImage.sprite.bounds.size.y/2;
+                maxY = _firstImage.transform.position.y + _firstImage.sprite.bounds.size.y/2;
         
         
         
         
-        minX2 = _parent2.transform.position.x - _secondImage.sprite.bounds.size.x/2;
-        maxX2 = _parent2.transform.position.x + _secondImage.sprite.bounds.size.x/2;
-        minY2 = _parent2.transform.position.y - _secondImage.sprite.bounds.size.y/2;
-        maxY2 = _parent2.transform.position.y + _secondImage.sprite.bounds.size.y/2;
+                minX2 = _parent2.transform.position.x - _secondImage.sprite.bounds.size.x/2;
+                maxX2 = _parent2.transform.position.x + _secondImage.sprite.bounds.size.x/2;
+                minY2 = _parent2.transform.position.y - _secondImage.sprite.bounds.size.y/2;
+                maxY2 = _parent2.transform.position.y + _secondImage.sprite.bounds.size.y/2;
+
+                StartCoroutine(iwait());
+            });
+            
+        }
+        else
+        {
+            
+                _firstImage = FindObjectOfType<FirstPicture>().GetComponent<Image>();
+                _secondImage = FindObjectOfType<SecondPicture>().GetComponent<Image>();
+                _value = zoomOutMax;
+        
+                minX = _firstImage.transform.position.x - _firstImage.sprite.bounds.size.x/2;
+                maxX = _firstImage.transform.position.x + _firstImage.sprite.bounds.size.x/2;
+                minY = _firstImage.transform.position.y - _firstImage.sprite.bounds.size.y/2;
+                maxY = _firstImage.transform.position.y + _firstImage.sprite.bounds.size.y/2;
+        
+        
+        
+        
+                minX2 = _parent2.transform.position.x - _secondImage.sprite.bounds.size.x/2;
+                maxX2 = _parent2.transform.position.x + _secondImage.sprite.bounds.size.x/2;
+                minY2 = _parent2.transform.position.y - _secondImage.sprite.bounds.size.y/2;
+                maxY2 = _parent2.transform.position.y + _secondImage.sprite.bounds.size.y/2;
 
 
+                StartCoroutine(iwait());
+        }
+            
+        
         
         FindObjectOfType<HintMech>().hintPressed.AddListener(() =>
         {
@@ -56,57 +104,62 @@ public class ZoomAbility : MonoBehaviour
 
     void Update()
     {
-        _firstImage.transform.localScale = new Vector3(2, 2, 2);
-        print(_firstImage.transform.localScale);
-        if(Input.touchCount == 1)
+
+
+        if (isInit)
         {
-            var touch = Input.GetTouch(0);
-            if(touch.phase == TouchPhase.Began)
+            _firstImage.transform.localScale = new Vector3(2, 2, 2);
+
+            //print(_firstImage.transform.localScale);
+            if (Input.touchCount == 1)
             {
-                firstId = touch.fingerId;
+                var touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
+                {
+                    firstId = touch.fingerId;
+                }
             }
-        }
 
-        // Later rather use this to iterate the touches
-        var touches = Input.touches;
+            // Later rather use this to iterate the touches
+            var touches = Input.touches;
 
-        for(var i = 0; i < touches.Length; i++)
-        {
-            var currentTouch = touches[i];
-
-            // Now from here you can always check the 
-            if(currentTouch.fingerId == firstId)
+            for (var i = 0; i < touches.Length; i++)
             {
-                PanPicture();
+                var currentTouch = touches[i];
+
+                // Now from here you can always check the 
+                if (currentTouch.fingerId == firstId)
+                {
+                    PanPicture();
+                }
+                else
+                {
+                    // ...
+                }
             }
-            else
+
+
+            if (Input.touchCount == 2)
             {
-                // ...
+
+                Touch touchZero = Input.GetTouch(0);
+                Touch touchOne = Input.GetTouch(1);
+
+                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+                float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+
+                float difference = currentMagnitude - prevMagnitude;
+
+                zoom(difference * 0.003f);
             }
+
+
+
+            zoom(Input.GetAxis("Mouse ScrollWheel"));
         }
-        
-        
-       if (Input.touchCount == 2)
-       {
-           
-            Touch touchZero = Input.GetTouch(0);
-            Touch touchOne = Input.GetTouch(1);
-
-            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-            float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-
-            float difference = currentMagnitude - prevMagnitude;
-
-            zoom(difference * 0.003f);
-        }
-
-       
-        
-        zoom(Input.GetAxis("Mouse ScrollWheel"));
-
     }
 
     private void PanPicture()
@@ -197,7 +250,11 @@ public class ZoomAbility : MonoBehaviour
             
         }
 
-    
+        private IEnumerator iwait()
+        {
+            yield return null;
+            initialised.Invoke();
+        }
         
 }
 

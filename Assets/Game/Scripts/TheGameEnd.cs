@@ -8,12 +8,10 @@ using Random = UnityEngine.Random;
 
 public class TheGameEnd : MonoBehaviour
 {
-    [SerializeField] private GameObject poolOfItemsFolder,
-         effectOnEnd3,
-        hints,
-        Bar,
-        itemsOnSceneFolder,sticker;
-
+    [SerializeField] private GameObject hints, Bar;
+    [SerializeField] private GameObject sticker, _tutorialObj3;
+        
+    [SerializeField] private GameObject itemsOnSceneFolder;
     [SerializeField] private Button[] buttonToOn;
     [SerializeField] private GameObject[] images;
     [SerializeField] private ParticleSystem[] _particles;
@@ -29,9 +27,25 @@ public class TheGameEnd : MonoBehaviour
 
     private void Awake()
     {
+        FindObjectOfType<FirstTimeTutorialPuzzles>().ItemsSpawned.AddListener(() =>
+        {
+            _tutorialObj3 = FindObjectOfType<char_finish>().gameObject;
+            sticker = FindObjectOfType<Image_stiker>().gameObject;
+            _tutorialObj3.SetActive(false);
+            sticker.SetActive(false);
+        });
+            
+            
+        FindObjectOfType<GameStart>().Started.AddListener(() =>
+        {
+            itemsOnSceneFolder = FindObjectOfType<PlaygroundScript>().gameObject;
+            int index;
+            index = itemsOnSceneFolder.transform.childCount;
+            itemsOnSceneFolder = itemsOnSceneFolder.transform.GetChild(index - 2).gameObject;
+        });
         _event.AddListener(() =>
         {
-            var SceneValue = $"{SceneManager.GetActiveScene().name}_Value";
+            var SceneValue = $"PuzzleLevel_{PlayerPrefs.GetInt("PuzzleLevelLoad")}_Value";
             
             Value = PlayerPrefs.GetInt(SceneValue);
             
@@ -43,6 +57,7 @@ public class TheGameEnd : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         
         if (Value>= 25)
         {
@@ -68,11 +83,15 @@ public class TheGameEnd : MonoBehaviour
         PlayerPrefs.SetInt(PuzzleLevelValue,1);
         int random = Random.Range(0, images.Length);
         isImageOn = true;
-        itemsOnSceneFolder.SetActive(false);
+        itemsOnSceneFolder.transform.GetChild(0).gameObject.SetActive(false);
         sticker.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (PlayerPrefs.GetInt($"PuzzlesTutorial_{PlayerPrefs.GetInt("PuzzleLevelLoad")}") == 1)
+        {
+            _tutorialObj3.SetActive(true);
+        }
         yield return new WaitForSeconds(2f);
         finishPanel.SetActive(true);
-        
         yield return new WaitForSeconds(2.7f);
         _coinsParticleSystem.gameObject.SetActive(true);
         coinScript.SetActive(true);

@@ -5,6 +5,7 @@ using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class ReferenceIdentification : MonoBehaviour
 {
@@ -16,19 +17,24 @@ public class ReferenceIdentification : MonoBehaviour
    private float _timer = 2f;
    private void Awake()
    {
+
+      if (SceneManager.GetActiveScene().name == "Level_1")
+      {
+         
+         _imageObject.GetComponent<PointDetect>();
+      }
       
-      _imageObject.GetComponent<PointDetect>();
       _imageObject.ImageClicked.AddListener(() =>
       {
          pointPosition = _imageObject.PointPosition();
          GameObject Non = Instantiate(_nonRightCircle, pointPosition, quaternion.identity);
          Non.transform.SetParent(CanvasParent.transform,false);
-         
+         print("hello");
          
          
          
       });
-      _secondImageObject.GetComponent<PointDetect2>();
+      //_secondImageObject.GetComponent<PointDetect2>();
       _secondImageObject.ImageClicked.AddListener(() =>
       {
          pointPosition = _secondImageObject.PointPosition();

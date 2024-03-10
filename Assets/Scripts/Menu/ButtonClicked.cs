@@ -22,12 +22,15 @@ public class ButtonClicked : MonoBehaviour
     
     IEnumerator waitAgain()
     {
-        //index = gameObject.transform.GetSiblingIndex() + 1;
-        indexButton = gameObject.transform.GetSiblingIndex() + 2;
-        int completeLevel = PlayerPrefs.GetInt("LevelValue");
+        int index = gameObject.transform.GetSiblingIndex() + 1;
+        PlayerPrefs.SetInt("NowLevel",index);
+        print(index);
+        indexButton = gameObject.transform.GetSiblingIndex();
+        int completeLevel = PlayerPrefs.GetInt("CompletedLevels");
         if(indexButton < completeLevel + 1) _cloudsClose.SetActive(true);
         yield return new WaitForSeconds(1f);
-        if(indexButton < completeLevel + 1) SceneManager.LoadScene(indexButton);
+        if(indexButton < completeLevel + 1) SceneManager.LoadScene("Level_1");
+        
     }
     private void Update()
     {

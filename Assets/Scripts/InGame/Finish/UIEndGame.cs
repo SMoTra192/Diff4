@@ -19,7 +19,7 @@ public class UIEndGame : MonoBehaviour
     {
         foreach (var particle in _particles)
         {
-            particle.gameObject.SetActive(true);
+            //particle.gameObject.SetActive(true);
             particle.Play();
         }
     }
@@ -42,7 +42,7 @@ public class UIEndGame : MonoBehaviour
     {
         foreach (var particle in _particles)
         {
-            particle.gameObject.SetActive(false);
+            //particle.gameObject.SetActive(false);
             particle.Stop();
         }
     }

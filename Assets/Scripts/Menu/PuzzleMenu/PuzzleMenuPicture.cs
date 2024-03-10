@@ -11,14 +11,13 @@ public class PuzzleMenuPicture : MonoBehaviour
         
         int buttonIndex = gameObject.transform.GetSiblingIndex()+1;
         int puzzleLevelIndex = PlayerPrefs.GetInt("CompletedPuzzleLevels");
-        int PuzzleLevelValue = PlayerPrefs.GetInt($"{SceneUtility.GetBuildIndexByScenePath($"Assets/Scenes/PuzzleLevel_{buttonIndex}.unity")}");
-        if (PuzzleLevelValue == 1)
+        if (puzzleLevelIndex > buttonIndex)
         {
             unCompletedImage.SetActive(false);
             completedImage.SetActive(true);
             closedImage.SetActive(false);
         }
-        if (PuzzleLevelValue != 1 && puzzleLevelIndex == buttonIndex)
+        if (puzzleLevelIndex == buttonIndex)
         {
             unCompletedImage.SetActive(true);
             closedImage.SetActive(false);

@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PointDetect : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerMoveHandler
@@ -40,8 +41,13 @@ public class PointDetect : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        
         bool isFinished;
-        isFinished = FindObjectOfType<EntryPoint>().IsFin();
+        if(SceneManager.GetActiveScene().name == "Level_1") isFinished = FindObjectOfType<EntryPoint>().IsFin();
+        else
+        {
+            isFinished = FindObjectOfType<DailyEntryPoint>().IsFin();
+        }
         if (!isTouched && Input.touchCount != 2 && !isTwoTouched && !isFinished)
         {
             FindObjectOfType<TakeTime>().timeDown.Invoke();
@@ -49,9 +55,7 @@ public class PointDetect : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
                 out pointPosition
             );
             ImageClicked.Invoke();
-
             
-           
         }
 
         if (Input.touchCount != 2)

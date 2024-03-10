@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Tutorial : MonoBehaviour , IPointerDownHandler
 {
     
-    [SerializeField] private GameObject tutorialObj,obj2,tutorialObj2;
+    [SerializeField] private GameObject tutorialObj,tutorialObj2,obj3;
     [SerializeField] private GameObject panelFinishObj;
+    private bool isObj2Touched = false;
     void Start()
     {
         if (PlayerPrefs.GetInt("Tutorial") >= 1)
@@ -23,6 +25,13 @@ public class Tutorial : MonoBehaviour , IPointerDownHandler
         {
             if(panelFinishObj != null) panelFinishObj.SetActive(true);
             PlayerPrefs.SetInt("Tutorial",2);
+        });
+        FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
+        {
+            if (obj3.activeInHierarchy)
+            {
+                StartCoroutine(wait2());
+            }
         });
         
     }
@@ -43,16 +52,18 @@ public class Tutorial : MonoBehaviour , IPointerDownHandler
     private IEnumerator wait()
     {
         tutorialObj.SetActive(false);
-        obj2.SetActive(false);
         yield return new WaitForSeconds(1.5f);
         if (PlayerPrefs.GetInt("Tutorial") == 0)
         {
             PlayerPrefs.SetInt("Tutorial",1);
             tutorialObj.SetActive(false);
-            obj2.SetActive(false);
-            tutorialObj2.SetActive(true);
-                
+            obj3.SetActive(true);
         }
     }
-    
+    private IEnumerator wait2()
+    {
+        obj3.SetActive(false);
+        yield return new WaitForSeconds(1.5f);
+        tutorialObj2.SetActive(true);
+    }
 }

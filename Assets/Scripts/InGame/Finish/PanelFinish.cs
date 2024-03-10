@@ -20,9 +20,13 @@ public class PanelFinish : MonoBehaviour
    private void Start()
    {
       isPlayed = false;
-      index = SceneIndex();
+      index = PlayerPrefs.GetInt("NowLevel");
        completedLevelIndex = PlayerPrefs.GetInt("CompletedLevels");
-       if (completedLevelIndex < index) PlayerPrefs.SetInt("CompletedLevels",completedLevelIndex + 1);
+       if (completedLevelIndex < index)
+       {
+          
+          PlayerPrefs.SetInt("CompletedLevels",completedLevelIndex + 1);
+       }
        
    }
 
@@ -54,20 +58,6 @@ public class PanelFinish : MonoBehaviour
    }
 
    
-   int SceneIndex()
-   {
-      string level = SceneManager.GetActiveScene().name;
-      string Level;
-      if (level.Length >= 8) Level = level.Substring(level.Length - 2);
-      else
-      {
-         Level = level.Substring(level.Length - 1);
-      }
-
-      
-      index = int.Parse(Level);
-      return index;
-   }
-
+   
   
 }

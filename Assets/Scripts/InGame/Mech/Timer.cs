@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Timer : MonoBehaviour
 {
     private float _timer;
-    private float _timerduration = 3f * 60f;
+    private float _timerduration = 182f;
     [SerializeField] private EntryPoint _entry;
     [SerializeField] private TextMeshProUGUI _firstminute;
     [SerializeField] private TextMeshProUGUI _secondminute;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -30,6 +31,7 @@ public class DailyLevelScript : MonoBehaviour
         _button.onClick.AddListener(() =>
         {
             PlayerPrefs.SetInt("DailyLevelPlaying", 1);
+            FirebaseAnalytics.LogEvent("play_daily");
             StartCoroutine(Image());
         });
     }
@@ -39,6 +41,8 @@ public class DailyLevelScript : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         _cloudsClose.SetActive(true);
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene($"DailyLevel_{dailyIndex}");
+        if(PlayerPrefs.GetInt("DailyNowLevel") == 0) PlayerPrefs.SetInt("DailyNowLevel",1);
+        SceneManager.LoadScene($"DailyLevel_1");
+        
     }
 }

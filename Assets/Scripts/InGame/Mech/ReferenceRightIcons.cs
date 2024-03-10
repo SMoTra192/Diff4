@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class ReferenceRightIcons : MonoBehaviour
 {
-    [SerializeField] private GameObject parentImage1, parentImage2, parentRightIcons,parentHints,parentHints2;
+    [SerializeField] private GameObject parentImage1, parentImage2, parentRightIcons;
+    private Transform parentHints,parentHints2;
     [SerializeField] private GameObject prefabRightIcon,prefabHints;
-
+    private LevelImagesInstance _spot;
+    private DailyLevelImagesInstance _spot2;
     private Transform hintTransform, hintTransform2;
-
+    private bool inFound = false;
+    
     public Vector3 HintTransform()
     {
         return hintTransform.position;
@@ -28,26 +32,80 @@ public class ReferenceRightIcons : MonoBehaviour
     private int rndIndex;
     private void Awake()
     {
-        //_buttonhint.onClick.AddListener(CheckHint);
-        //_buttonhint.onClick.AddListener(CheckHint2);
-        int Childs = parentImage1.transform.childCount;
-        for (int i = 0; i < Childs - 1; i++)
+        
+        if (SceneManager.GetActiveScene().name == "Level_1")
         {
-            Transform child = parentImage1.transform.GetChild(i);
-            Transform child2 = parentImage2.transform.GetChild(i);
-            //Vector3 positionChild = child.transform.position - new Vector3(0,2.55f,0);
-            Vector3 normalScale = new Vector3(1, 1, 1);
-            GameObject childIcon = Instantiate(prefabRightIcon, parentRightIcons.transform.position, quaternion.identity);
-            //childIcon.transform.position = new Vector3(transform.position.x,transform.position.y,0);
-            childIcon.transform.SetParent(parentRightIcons.transform);
-            childIcon.transform.localScale = normalScale;
-            GameObject hints = Instantiate(prefabHints, child.transform.position, quaternion.identity);
-            hints.transform.SetParent(parentHints.transform);
-            hints.transform.localScale = normalScale;
-            GameObject hints2 = Instantiate(prefabHints, child2.transform.position, quaternion.identity);
-            hints2.transform.SetParent(parentHints2.transform);
-            hints2.transform.localScale = normalScale;
+            _spot = FindObjectOfType<LevelImagesInstance>().GetComponent<LevelImagesInstance>();
+            _spot.onSpot.AddListener(() =>
+            {
+                print("spoted");
+                parentImage1 = GameObject.FindGameObjectWithTag("Obj1");
+                parentImage2 = GameObject.FindGameObjectWithTag("Obj2");
+                int childcount = parentImage1.transform.childCount;
+                parentHints = parentImage1.transform.GetChild(childcount - 1);
+                childcount = parentImage2.transform.childCount;
+                parentHints2 = parentImage2.transform.GetChild(childcount - 1);
+                //_buttonhint.onClick.AddListener(CheckHint);
+                //_buttonhint.onClick.AddListener(CheckHint2);
+                int Childs = parentImage1.transform.childCount;
+                for (int i = 0; i < Childs - 1; i++)
+                {
+                    Transform child = parentImage1.transform.GetChild(i);
+                    Transform child2 = parentImage2.transform.GetChild(i);
+                    //Vector3 positionChild = child.transform.position - new Vector3(0,2.55f,0);
+                    Vector3 normalScale = new Vector3(1, 1, 1);
+                    GameObject childIcon = Instantiate(prefabRightIcon, parentRightIcons.transform.position,
+                        quaternion.identity);
+                    //childIcon.transform.position = new Vector3(transform.position.x,transform.position.y,0);
+                    childIcon.transform.SetParent(parentRightIcons.transform);
+                    childIcon.transform.localScale = normalScale;
+                    GameObject hints = Instantiate(prefabHints, child.transform.position, quaternion.identity);
+                    hints.transform.SetParent(parentHints.transform);
+                    hints.transform.localScale = normalScale;
+                    GameObject hints2 = Instantiate(prefabHints, child2.transform.position, quaternion.identity);
+                    hints2.transform.SetParent(parentHints2.transform);
+                    hints2.transform.localScale = normalScale;
 
+                }
+
+            });
+        }
+        else
+        {
+            _spot2 = FindObjectOfType<DailyLevelImagesInstance>().GetComponent<DailyLevelImagesInstance>();
+            _spot2.onSpotNext.AddListener(() =>
+            {
+                parentImage1 = GameObject.FindGameObjectWithTag("Obj1");
+                parentImage2 = GameObject.FindGameObjectWithTag("Obj2");
+                int childcount = parentImage1.transform.childCount;
+                parentHints = parentImage1.transform.GetChild(childcount - 1);
+                childcount = parentImage2.transform.childCount;
+                parentHints2 = parentImage2.transform.GetChild(childcount - 1);
+                //_buttonhint.onClick.AddListener(CheckHint);
+                //_buttonhint.onClick.AddListener(CheckHint2);
+                int Childs = parentImage1.transform.childCount;
+                for (int i = 0; i < Childs - 1; i++)
+                {
+                    Transform child = parentImage1.transform.GetChild(i);
+                    Transform child2 = parentImage2.transform.GetChild(i);
+                    //Vector3 positionChild = child.transform.position - new Vector3(0,2.55f,0);
+                    Vector3 normalScale = new Vector3(1, 1, 1);
+                    GameObject childIcon = Instantiate(prefabRightIcon, parentRightIcons.transform.position,
+                        quaternion.identity);
+                    //childIcon.transform.position = new Vector3(transform.position.x,transform.position.y,0);
+                    childIcon.transform.SetParent(parentRightIcons.transform);
+                    childIcon.transform.localScale = normalScale;
+                    GameObject hints = Instantiate(prefabHints, child.transform.position, quaternion.identity);
+                    hints.transform.SetParent(parentHints.transform);
+                    hints.transform.localScale = normalScale;
+                    GameObject hints2 = Instantiate(prefabHints, child2.transform.position, quaternion.identity);
+                    hints2.transform.SetParent(parentHints2.transform);
+                    hints2.transform.localScale = normalScale;
+                }
+                
+                
+            });
+            
         }
 
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
@@ -144,5 +202,10 @@ public class ReferenceRightIcons : MonoBehaviour
         }
     }
 
-    
+    private void Update()
+    {
+        if(!inFound) _spot = GetComponent<LevelImagesInstance>();
+        if (_spot != null) inFound = true;
+
+    }
 }

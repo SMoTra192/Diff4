@@ -13,18 +13,20 @@ public class CloudsScript : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     public void NextLevelClouds()
     {
         StartCoroutine(waitNext());
-        
+
     }
+
     public void AgainLevelClouds()
     {
         StartCoroutine(waitAgain());
     }
+
     public void MenuLevelClouds()
     {
         StartCoroutine(waitMenu());
@@ -35,52 +37,80 @@ public class CloudsScript : MonoBehaviour
         StartCoroutine(waitChosenLevel());
     }
 
+    public void HiddenLevel()
+    {
+
+        StartCoroutine(waitHiddenLevel());
+    }
+
+    public void HiddenContinue()
+    {
+        StartCoroutine(waitHiddenContinue());
+    }
+
     IEnumerator waitMenu()
     {
         _cloudsClose.SetActive(true);
         yield return new WaitForSeconds(_secondsForWaitingSceneChange);
         SceneManager.LoadScene("Menu");
     }
-   
+
     IEnumerator waitAgain()
     {
         _cloudsClose.SetActive(true);
+        PlayerPrefs.SetInt("LoseLevel", 0);
         yield return new WaitForSeconds(_secondsForWaitingSceneChange);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     IEnumerator waitNext()
     {
         _cloudsClose.SetActive(true);
-        string level = SceneManager.GetActiveScene().name;
-        string Level = default;
-        if (level.Length == 8) Level = level.Substring(level.Length - 2);
-        if (level.Length == 7) Level = level.Substring(level.Length - 1);
-        if (level.Length == 9) Level = level.Substring(level.Length - 3);
-        
-        
-
-        int index = int.Parse(Level);
-        print(index);
-        //print(SceneManager.GetActiveScene().buildIndex);
-        //print(SceneManager.sceneCountInBuildSettings);
         yield return new WaitForSeconds(_secondsForWaitingSceneChange);
-        if (index < PlayerPrefs.GetInt("Index"))
-            SceneManager.LoadScene($"Level_{index + 1}");
-        else
-        {
-           PlayerPrefs.DeleteAll();
-           SceneManager.LoadScene("Menu");
-        }
+        int nowLevel = PlayerPrefs.GetInt("NowLevel");
+        PlayerPrefs.SetInt("NowLevel", nowLevel + 1);
+        SceneManager.LoadScene("Level_1");
+
     }
 
     IEnumerator waitChosenLevel()
     {
         _cloudsClose.SetActive(true);
         int completedLevelIndex;
-        
+
         yield return new WaitForSeconds(_secondsForWaitingSceneChange);
-        
+
         completedLevelIndex = PlayerPrefs.GetInt("CompletedLevels");
-        SceneManager.LoadScene($"Level_{completedLevelIndex + 1}");
+        PlayerPrefs.SetInt("NowLevel", completedLevelIndex + 1);
+        SceneManager.LoadScene($"Level_1");
     }
+
+    IEnumerator waitHiddenLevel()
+    {
+        _cloudsClose.SetActive(true);
+        int completedLevelIndex;
+
+        yield return new WaitForSeconds(_secondsForWaitingSceneChange);
+
+        completedLevelIndex = PlayerPrefs.GetInt($"LoadedLevel{PlayerPrefs.GetInt("CompletedHiddenLevels")}");
+        int coins = PlayerPrefs.GetInt("CoinsAmount");
+        if (completedLevelIndex == 0) PlayerPrefs.SetInt("CoinsAmount", coins - PlayerPrefs.GetInt("_coinsToUnlock"));
+
+        SceneManager.LoadScene($"Hidden_Level");
+
+    }
+
+    IEnumerator waitHiddenContinue()
+    {
+        _cloudsClose.SetActive(true);
+        yield return new WaitForSeconds(_secondsForWaitingSceneChange);
+        if (PlayerPrefs.GetInt("CoinsAmount") < PlayerPrefs.GetInt("_coinsToUnlock")) SceneManager.LoadScene("Menu");
+        else
+        {
+            _secondsForWaitingSceneChange = 0.1f;
+            StartCoroutine(waitHiddenLevel());
+        }
+    }
+
+
 }

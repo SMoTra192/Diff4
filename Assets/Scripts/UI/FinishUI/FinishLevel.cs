@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class FinishLevel : MonoBehaviour
 {
-    private int levelNumber;
+    
     private TextMeshProUGUI _text;
     private void Awake()
     {
@@ -15,8 +15,7 @@ public class FinishLevel : MonoBehaviour
         FindObjectOfType<EntryPoint>().endGamedWithSuccess.AddListener(() =>
         {
             
-            levelNumber = SceneManager.GetActiveScene().buildIndex - 1;
-            _text.text = $"Level {levelNumber}";
+            _text.text = $"Level {PlayerPrefs.GetInt("NowLevel")}";
         });
     }
 }

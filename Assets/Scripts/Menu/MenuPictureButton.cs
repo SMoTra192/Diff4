@@ -19,9 +19,9 @@ public class MenuPictureButton : MonoBehaviour
 
     private void Update()
     {
-        int buttonIndex = gameObject.transform.GetSiblingIndex() + 2;
+        int buttonIndex = gameObject.transform.GetSiblingIndex();
         //print($"ButtonIndex{buttonIndex}");
-        int completeValueInt = PlayerPrefs.GetInt("LevelValue");
+        int completeValueInt = PlayerPrefs.GetInt("CompletedLevels");
         //print($"CompleteValueIndex{completeValueInt}");
         if (buttonIndex < completeValueInt)
         {

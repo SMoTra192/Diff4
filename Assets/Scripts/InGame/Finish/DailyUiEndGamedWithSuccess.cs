@@ -10,7 +10,7 @@ public class DailyUiEndGamedWithSuccess : MonoBehaviour
 
     private void Awake()
     {
-        FindObjectOfType<EntryPoint>().endGamedWithDailySuccess.AddListener(() =>
+        FindObjectOfType<DailyEntryPoint>().endGamedWithDailySuccess.AddListener(() =>
         {
             StartCoroutine(Image());
             PlayerPrefs.SetInt("Salut", 0);
