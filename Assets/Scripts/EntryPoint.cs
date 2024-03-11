@@ -26,11 +26,12 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private GameObject _counter;
     [SerializeField] private GameObject iconsParent;
     [SerializeField] private AudioSource _sourceDiffIcons;
-
     private bool isInstanceReady = false;
     private bool isFin = false;
+    
     void Start()
     {
+        
         FindObjectOfType<LevelImagesInstance>().onSpot.AddListener(() =>
         {
             print("hello24");

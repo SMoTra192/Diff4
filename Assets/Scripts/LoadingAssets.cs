@@ -26,7 +26,8 @@ public class LoadingAssets : MonoBehaviour
     
     [SerializeField] private Slider _loadingBar;
     [SerializeField] private TextMeshProUGUI _textPercentage;
-    //[SerializeField] private GameObject 
+
+    
     async void Awake()
     {
         Debug.Log(Addressables.RuntimePath);
@@ -34,7 +35,7 @@ public class LoadingAssets : MonoBehaviour
         var allKeys = resourceLocator.Keys.ToList();
         
         var totalDownloadSizeKb = BToKb(await Addressables.GetDownloadSizeAsync(allKeys).Task);
- 
+        
         Debug.Log("Download kbs required: " + totalDownloadSizeKb);
         var downloadedKb = 0f;
         foreach (var key in allKeys)
@@ -43,6 +44,7 @@ public class LoadingAssets : MonoBehaviour
             if (keyDownloadSizeKb <= 0)
             {
                 continue;
+            
             }
             
            
@@ -53,22 +55,22 @@ public class LoadingAssets : MonoBehaviour
                 await Task.Yield();
                 var acquiredKb = downloadedKb + (keyDownloadOperation.PercentComplete * keyDownloadSizeKb);
                 var totalProgressPercentage = (acquiredKb / totalDownloadSizeKb);
-                _loadingBar.value = totalProgressPercentage;
+                //_loadingBar.value = totalProgressPercentage;
                 _textPercentage.text = $"Loading Assets {Math.Round(totalProgressPercentage * 100)}%";
                 Debug.Log("Download progress: " + (totalProgressPercentage * 100).ToString("0.00") + "% - "  + acquiredKb + "kb /" + totalDownloadSizeKb + "kb");
                 
             }
-            new WaitUntil(() => keyDownloadOperation.IsDone);
-            AsyncOperationHandle<Sprite> image = Addressables.LoadAssetAsync<Sprite>("Assets/GameImages/NowLevels/1/1.png");
-            Addressables.InstantiateAsync(image, null, true, true);
-            //StartCoroutine(iwait()); 
-                
-            downloadedKb += keyDownloadSizeKb;
             
+            new WaitUntil(() => keyDownloadOperation.IsDone);
+            StartCoroutine(iwait());
+            downloadedKb += keyDownloadSizeKb;
+
         }
+        
+
         if (totalDownloadSizeKb <= 0)
         {
-            _loadingBar.gameObject.SetActive(false);
+            //_loadingBar.gameObject.SetActive(false);
             _textPercentage.text = $" ";
             StartCoroutine(iwait());
         }
