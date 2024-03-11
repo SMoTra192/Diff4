@@ -57,19 +57,19 @@ if(SceneManager.GetActiveScene().name == "Level_1")
     FindObjectOfType<LevelImagesInstance>().onSpot.AddListener(() =>
 {
     pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
-    print(pointsToWin);
+   // print(pointsToWin);
 });
 }
 else
 {
     pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
-    print(pointsToWin);
+    //print(pointsToWin);
 }
         
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
             _winningPoints = _check.WinningPoints();
-            print(_winningPoints);
+            //print(_winningPoints);
         FindObjectOfType<CheckEffects>().endEffects.AddListener(()=> isEndGamedWithSuccess = true);        
             
 

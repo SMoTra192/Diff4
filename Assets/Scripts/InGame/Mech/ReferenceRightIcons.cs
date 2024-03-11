@@ -38,7 +38,7 @@ public class ReferenceRightIcons : MonoBehaviour
             _spot = FindObjectOfType<LevelImagesInstance>().GetComponent<LevelImagesInstance>();
             _spot.onSpot.AddListener(() =>
             {
-                print("spoted");
+               // print("spoted");
                 parentImage1 = GameObject.FindGameObjectWithTag("Obj1");
                 parentImage2 = GameObject.FindGameObjectWithTag("Obj2");
                 int childcount = parentImage1.transform.childCount;

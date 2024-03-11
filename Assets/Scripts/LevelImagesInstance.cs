@@ -17,7 +17,7 @@ public class LevelImagesInstance : MonoBehaviour
      void Start()
     {
         NowLevel = PlayerPrefs.GetInt("NowLevel");
-        print(NowLevel);
+        //print(NowLevel);
         StartCoroutine(instASync());
     }
     private IEnumerator instASync()

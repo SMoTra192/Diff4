@@ -24,7 +24,7 @@ public class ButtonClicked : MonoBehaviour
     {
         int index = gameObject.transform.GetSiblingIndex() + 1;
         PlayerPrefs.SetInt("NowLevel",index);
-        print(index);
+        //print(index);
         indexButton = gameObject.transform.GetSiblingIndex();
         int completeLevel = PlayerPrefs.GetInt("CompletedLevels");
         if(indexButton < completeLevel + 1) _cloudsClose.SetActive(true);

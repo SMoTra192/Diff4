@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -28,7 +29,7 @@ public class LoadingAssets : MonoBehaviour
     //[SerializeField] private GameObject 
     async void Awake()
     {
-        
+        Debug.Log(Addressables.RuntimePath);
         var resourceLocator = await Addressables.InitializeAsync().Task;
         var allKeys = resourceLocator.Keys.ToList();
         
@@ -39,7 +40,6 @@ public class LoadingAssets : MonoBehaviour
         foreach (var key in allKeys)
         {
             var keyDownloadSizeKb = BToKb(await Addressables.GetDownloadSizeAsync(key).Task);
-            
             if (keyDownloadSizeKb <= 0)
             {
                 continue;
@@ -59,10 +59,10 @@ public class LoadingAssets : MonoBehaviour
                 
             }
             new WaitUntil(() => keyDownloadOperation.IsDone);
-            
-            StartCoroutine(iwait()); 
-            System.Diagnostics.Process.Start(UnityEngine.Device.Application.dataPath.Replace("_Data", ".exe"));
-            Application.Quit(); 
+            AsyncOperationHandle<Sprite> image = Addressables.LoadAssetAsync<Sprite>("Assets/GameImages/NowLevels/1/1.png");
+            Addressables.InstantiateAsync(image, null, true, true);
+            //StartCoroutine(iwait()); 
+                
             downloadedKb += keyDownloadSizeKb;
             
         }
