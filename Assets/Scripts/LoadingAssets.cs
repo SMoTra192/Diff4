@@ -44,7 +44,6 @@ public class LoadingAssets : MonoBehaviour
             if (keyDownloadSizeKb <= 0)
             {
                 continue;
-            
             }
             
            
@@ -57,13 +56,12 @@ public class LoadingAssets : MonoBehaviour
                 var totalProgressPercentage = (acquiredKb / totalDownloadSizeKb);
                 //_loadingBar.value = totalProgressPercentage;
                 _textPercentage.text = $"Loading Assets {Math.Round(totalProgressPercentage * 100)}%";
-                Debug.Log("Download progress: " + (totalProgressPercentage * 100).ToString("0.00") + "% - "  + acquiredKb + "kb /" + totalDownloadSizeKb + "kb");
-                
+                Debug.Log("Download progress: " + (totalProgressPercentage * 100).ToString("0.00") + "% - "  + acquiredKb + "kb /" + totalDownloadSizeKb + "kb");    
             }
             
             new WaitUntil(() => keyDownloadOperation.IsDone);
             StartCoroutine(iwait());
-            downloadedKb += keyDownloadSizeKb;
+            //downloadedKb += keyDownloadSizeKb;
 
         }
         
