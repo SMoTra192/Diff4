@@ -27,10 +27,9 @@ public class LoadingAssets : MonoBehaviour
     [SerializeField] private Slider _loadingBar;
     [SerializeField] private TextMeshProUGUI _textPercentage;
 
-    
+    [SerializeField] private GameObject _panelRestartGame;
     async void Awake()
     {
-        Debug.Log(Addressables.RuntimePath);
         var resourceLocator = await Addressables.InitializeAsync().Task;
         var allKeys = resourceLocator.Keys.ToList();
         
@@ -54,13 +53,14 @@ public class LoadingAssets : MonoBehaviour
                 await Task.Yield();
                 var acquiredKb = downloadedKb + (keyDownloadOperation.PercentComplete * keyDownloadSizeKb);
                 var totalProgressPercentage = (acquiredKb / totalDownloadSizeKb);
-                //_loadingBar.value = totalProgressPercentage;
+                _loadingBar.value = totalProgressPercentage;
                 _textPercentage.text = $"Loading Assets {Math.Round(totalProgressPercentage * 100)}%";
                 Debug.Log("Download progress: " + (totalProgressPercentage * 100).ToString("0.00") + "% - "  + acquiredKb + "kb /" + totalDownloadSizeKb + "kb");    
             }
             
             new WaitUntil(() => keyDownloadOperation.IsDone);
-            StartCoroutine(iwait());
+            _panelRestartGame.SetActive(true);
+            // StartCoroutine(iwait());
             //downloadedKb += keyDownloadSizeKb;
 
         }
@@ -68,7 +68,7 @@ public class LoadingAssets : MonoBehaviour
 
         if (totalDownloadSizeKb <= 0)
         {
-            //_loadingBar.gameObject.SetActive(false);
+            _loadingBar.gameObject.SetActive(false);
             _textPercentage.text = $" ";
             StartCoroutine(iwait());
         }
