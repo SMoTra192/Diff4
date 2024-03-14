@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -27,30 +28,11 @@ public class ProgressionLoading : MonoBehaviour
         {
             HintClick();
         });
+        StartCoroutine((await()));
         
         
         
         
-        PlayerPrefs.SetInt($"LoadedLevel{PlayerPrefs.GetInt("CompletedHiddenLevels")}",1);
-        
-        _rectGameobject = Resources.Load<RectTransform>($"Levels/Hidden/{PlayerPrefs.GetInt("CompletedHiddenLevels")}/Scroll");
-        //PlayerPrefs.GetInt("HiddenLevelLoad")
-        gm = Instantiate(_rectGameobject, _uiParent.transform.position, quaternion.identity);
-        gm.transform.SetParent(_uiParent.gameObject.transform);
-        gm.sizeDelta = new Vector2(0, 0);
-        gm.transform.localScale = new Vector3(1, 1, 1);
-        gm.transform.SetSiblingIndex(0);
-        
-        _content = GameObject.Find("Scroll(Clone)").transform.GetChild(0).gameObject;
-        print(_content.name);
-        objFolder = new GameObject[3];
-        for (int i = 0; i < 3; i++)
-        {
-            objFolder[i] = (_content.transform.GetChild(1).gameObject.transform.GetChild(i).gameObject); //.gameObject.transform.GetChild(1).gameObject.transform.GetChild(i).gameObject);
-            print(objFolder[i].name);
-        }
-
-        StartCoroutine(InvokeCoroutine());
     }
     public void HintClick()
     {
@@ -79,5 +61,31 @@ public class ProgressionLoading : MonoBehaviour
     {
         yield return null;
             Created.Invoke();
+    }
+
+    IEnumerator await()
+    {
+        PlayerPrefs.SetInt($"LoadedLevel{PlayerPrefs.GetInt("CompletedHiddenLevels")}",1);
+        
+        //_rectGameobject = Resources.Load<RectTransform>($"Levels/Hidden/{PlayerPrefs.GetInt("CompletedHiddenLevels")}/Scroll");
+        yield return Addressables.InstantiateAsync($"Assets/GameImages/HIdden/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/Scroll.prefab",parent:_uiParent.gameObject.transform,true);
+        GameObject _gm = FindObjectOfType<IconsValue>().gameObject;
+        _gm.transform.position = _uiParent.transform.position;
+        //PlayerPrefs.GetInt("HiddenLevelLoad")
+        //gm = Instantiate(_rectGameobject, _uiParent.transform.position, quaternion.identity);
+        gm = _gm.GetComponent<RectTransform>();
+        gm.sizeDelta = new Vector2(0, 0);
+        gm.transform.localScale = new Vector3(1, 1, 1);
+        gm.transform.SetSiblingIndex(0);
+        
+        _content = GameObject.Find("Scroll(Clone)").transform.GetChild(0).gameObject;
+        print(_content.name);
+        objFolder = new GameObject[3];
+        for (int i = 0; i < 3; i++)
+        {
+            objFolder[i] = (_content.transform.GetChild(1).gameObject.transform.GetChild(i).gameObject); //.gameObject.transform.GetChild(1).gameObject.transform.GetChild(i).gameObject);
+            print(objFolder[i].name);
+        }
+        StartCoroutine(InvokeCoroutine());
     }
 }

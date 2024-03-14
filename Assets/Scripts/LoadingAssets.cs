@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -37,6 +38,18 @@ public class LoadingAssets : MonoBehaviour
         
         Debug.Log("Download kbs required: " + totalDownloadSizeKb);
         var downloadedKb = 0f;
+        
+
+        while (_loadingBar.value != 1)
+        {
+            await Task.Yield();
+            _loadingBar.value += 0.005f;
+            _textPercentage.text = $"Loading {math.round(_loadingBar.value * 100)}%";
+        }
+
+
+            StartCoroutine(iwait());
+
         foreach (var key in allKeys)
         {
             var keyDownloadSizeKb = BToKb(await Addressables.GetDownloadSizeAsync(key).Task);
@@ -53,25 +66,20 @@ public class LoadingAssets : MonoBehaviour
                 await Task.Yield();
                 var acquiredKb = downloadedKb + (keyDownloadOperation.PercentComplete * keyDownloadSizeKb);
                 var totalProgressPercentage = (acquiredKb / totalDownloadSizeKb);
-                _loadingBar.value = totalProgressPercentage;
-                _textPercentage.text = $"Loading Assets {Math.Round(totalProgressPercentage * 100)}%";
+                //_loadingBar.value = totalProgressPercentage;
+                //_textPercentage.text = $"Loading Assets {Math.Round(totalProgressPercentage * 100)}%";
                 Debug.Log("Download progress: " + (totalProgressPercentage * 100).ToString("0.00") + "% - "  + acquiredKb + "kb /" + totalDownloadSizeKb + "kb");    
             }
             
-            new WaitUntil(() => keyDownloadOperation.IsDone);
+            //new WaitUntil(() => keyDownloadOperation.IsDone);
             //_panelRestartGame.SetActive(true);
-            StartCoroutine(iwait());
+            
             //downloadedKb += keyDownloadSizeKb;
 
         }
         
 
-        if (totalDownloadSizeKb <= 0)
-        {
-            _loadingBar.gameObject.SetActive(false);
-            _textPercentage.text = $" ";
-            StartCoroutine(iwait());
-        }
+        
     }
 
     private void Update()
