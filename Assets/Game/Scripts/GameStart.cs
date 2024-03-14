@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
@@ -12,6 +13,7 @@ public class GameStart : MonoBehaviour
     private GameObject _poolOfItemsParent, _poolSpaceParent, _inGameScenePrefabParent;
     private RectTransform rct;
         [SerializeField] private GameObject _playGroung,_playgroung2;
+        
     private string objName;
     public UnityEvent Started = new();
     private GameObject child;
@@ -20,27 +22,36 @@ public class GameStart : MonoBehaviour
 
     private void Awake()
     {
+        StartCoroutine(await());
+
+    }
+    
+    private IEnumerator await()
+    {
+
         Vector3 position;
         if(PlayerPrefs.GetInt("PuzzleLevelLoad") == 0) PlayerPrefs.SetInt("PuzzleLevelLoad", 1);
         
-        _rectGameobject = Resources.Load<RectTransform>($"Levels/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/TheGameScene");
+
+        yield return Addressables.InstantiateAsync($"Assets/GameImages/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/TheGameScene.prefab",parent:_playGroung.gameObject.transform,true);
         position = _playGroung.transform.position;//+ new Vector3(0, 0.28f, 0);
-        rct = Instantiate(_rectGameobject, position, quaternion.identity);
-        rct.transform.SetParent(_playGroung.gameObject.transform);
+        GameObject RCT = FindObjectOfType<TheGameSceneScript>().gameObject;
+        rct = RCT.GetComponent<RectTransform>();
         rct.sizeDelta = new Vector2(0, 0);
         rct.transform.localScale = new Vector3(1, 1, 1);
-
+        rct.anchoredPosition = new Vector2(0,0); 
         _inGameScenePrefabParent = rct.gameObject;
         
-        _rectGameobject = Resources.Load<RectTransform>($"Levels/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/Pool");
-        //position ;
-       rct = Instantiate(_rectGameobject,_rectGameobject.transform.position, quaternion.identity);
-       rct.transform.SetParent(_playgroung2.gameObject.transform);
-       //rct.transform.position = _playGroung.transform.position;
-       //rct.anchoredPosition = new Vector2(0, 0);
+        
+    
+        yield return Addressables.InstantiateAsync($"Assets/GameImages/Puzzles/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/Pool.prefab",parent:_playgroung2.gameObject.transform,true);
+        GameObject RCT2 = FindObjectOfType<PoolScriptObject>().gameObject;
+        rct = RCT2.GetComponent<RectTransform>();
        rct.sizeDelta = new Vector2(0, 0);
        rct.transform.localScale = new Vector3(1, 1, 1);
-        //obj.anchoredPosition = new Vector2(0, 0);
+
+
+
         _poolOfItemsParent = rct.gameObject;
         
         int childcount = _poolOfItemsParent.transform.GetChild(0).transform.childCount;
@@ -101,7 +112,5 @@ public class GameStart : MonoBehaviour
 
         }
        Started.Invoke();
-
     }
-    
 }

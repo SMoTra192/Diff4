@@ -21,10 +21,14 @@ public class RectTransformLeft : MonoBehaviour
     private int starsAmount;
     private bool isChecked;
 
+    private bool IsGameStarted = false;
     private void Awake()
     {
         _transform = GetComponent<RectTransform>();
-        
+        FindObjectOfType<GameStart>().Started.AddListener(()=>
+        {
+            IsGameStarted = true;
+        });
         
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
@@ -151,7 +155,9 @@ public class RectTransformLeft : MonoBehaviour
 
     void Update()
         {
-            if (!isChecked)
+            if(IsGameStarted)
+            {
+                if (!isChecked)
             {
                 /*for (int i = 0; i < _poolOfItemsParent.childCount; i++)
                 {
@@ -166,8 +172,10 @@ public class RectTransformLeft : MonoBehaviour
                 _vector2.x = -7.5f + (0.3f * starsAmount);
                 isChecked = true;
             }
-            print(starsAmount);
+            //print(starsAmount);
             _transform.anchorMax = _vector2;
+            }
+            
         }
 
     private void Random()

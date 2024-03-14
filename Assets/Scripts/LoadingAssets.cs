@@ -59,8 +59,8 @@ public class LoadingAssets : MonoBehaviour
             }
             
             new WaitUntil(() => keyDownloadOperation.IsDone);
-            _panelRestartGame.SetActive(true);
-            // StartCoroutine(iwait());
+            //_panelRestartGame.SetActive(true);
+            StartCoroutine(iwait());
             //downloadedKb += keyDownloadSizeKb;
 
         }

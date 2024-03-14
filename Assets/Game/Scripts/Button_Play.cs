@@ -8,9 +8,19 @@ public class Button_Play : MonoBehaviour
     [SerializeField] private GameObject _poolOfItems, _poolSpace;
     [SerializeField] private GameObject _buttonPlay;
 
+    private bool IsGameStarted = false;
+    private void Awake() 
+       {
+    FindObjectOfType<GameStart>().Started.AddListener(()=>
+    {
+IsGameStarted = true;
+    });
+       }
     private bool isChecked = false;
     private void Update()
     {
+        if(IsGameStarted)
+        {
         if(_poolOfItems == null) _poolOfItems = GameObject.Find("PoolOfItems");
         if (_poolSpace == null) _poolSpace = GameObject.Find("PoolSpace");
         int starsAmount = PlayerPrefs.GetInt("StarsAmount");
@@ -24,5 +34,7 @@ public class Button_Play : MonoBehaviour
             
         }
         if( isChecked && starsAmount == 0 && _poolSpace.transform.childCount == 0) _buttonPlay.SetActive(true);
+        }
+        
     }
 }
