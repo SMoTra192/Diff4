@@ -1454,7 +1454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &193794496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10749,6 +10749,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 997}
   m_SizeDelta: {x: 978, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &865454577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 865454579}
+  - component: {fileID: 865454578}
+  m_Layer: 0
+  m_Name: CheckPurchases
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &865454578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865454577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 956f7532db06f164d9d3d3de47fba950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RemoveAds_ID: com.findit.difference.puzzle.removeads
+--- !u!4 &865454579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865454577}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.30682945, z: 74.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874904817
 GameObject:
   m_ObjectHideFlags: 0
@@ -22191,7 +22236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Buy
+  m_text: Remove Ads
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bae5c8d427334fb46ac7d4fed9daa4e7, type: 2}
   m_sharedMaterial: {fileID: -1506126010807273937, guid: bae5c8d427334fb46ac7d4fed9daa4e7, type: 2}
@@ -22218,8 +22263,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -31471,13 +31516,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1898175758}
   - component: {fileID: 1898175759}
+  - component: {fileID: 1898175760}
   m_Layer: 5
   m_Name: Disable_ADS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1898175758
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31511,6 +31557,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9575010326b3e44b7d6e40bc10aa1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1898175760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898175757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.findit.difference.puzzle.removeads
+  buttonType: 0
+  consumePurchase: 1
+  onTransactionsRestored:
+    m_PersistentCalls:
+      m_Calls: []
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 865454578}
+        m_TargetAssemblyTypeName: CheckPurchases, Assembly-CSharp
+        m_MethodName: onPurchaseCompleted
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 865454578}
+        m_TargetAssemblyTypeName: CheckPurchases, Assembly-CSharp
+        m_MethodName: OnPurchaseFailed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onProductFetched:
+    m_PersistentCalls:
+      m_Calls: []
+  button: {fileID: 1942553605}
 --- !u!1 &1901412023
 GameObject:
   m_ObjectHideFlags: 0
@@ -34417,3 +34515,4 @@ SceneRoots:
   - {fileID: 1006226376}
   - {fileID: 1847544658}
   - {fileID: 531276146}
+  - {fileID: 865454579}

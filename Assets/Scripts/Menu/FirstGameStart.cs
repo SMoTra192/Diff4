@@ -22,10 +22,7 @@ public class FirstGameStart : MonoBehaviour
             PlayerPrefs.SetInt("CompletedPuzzleLevels",1);
             PlayerPrefs.SetInt("CompletedHiddenLevels",1);
             PlayerPrefs.SetString("DayOfWeek",DateTime.Now.DayOfWeek.ToString());
-            
-            
-            
-           // PlayerPrefs.SetInt("ADSDisable",1);
+            PlayerPrefs.SetInt("ADSDisable",0);
            // MaxSdk.HideBanner("f6924db41060fb9d");
             
         }

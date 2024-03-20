@@ -68,7 +68,7 @@ public class ProgressionLoading : MonoBehaviour
         PlayerPrefs.SetInt($"LoadedLevel{PlayerPrefs.GetInt("CompletedHiddenLevels")}",1);
         
         //_rectGameobject = Resources.Load<RectTransform>($"Levels/Hidden/{PlayerPrefs.GetInt("CompletedHiddenLevels")}/Scroll");
-        yield return Addressables.InstantiateAsync($"Assets/GameImages/HIdden/{PlayerPrefs.GetInt("PuzzleLevelLoad")}/Scroll.prefab",parent:_uiParent.gameObject.transform,true);
+        yield return Addressables.InstantiateAsync($"Assets/GameImages/HIdden/{PlayerPrefs.GetInt("CompletedHiddenLevels")}/Scroll.prefab",parent:_uiParent.gameObject.transform,true);
         GameObject _gm = FindObjectOfType<IconsValue>().gameObject;
         _gm.transform.position = _uiParent.transform.position;
         //PlayerPrefs.GetInt("HiddenLevelLoad")
