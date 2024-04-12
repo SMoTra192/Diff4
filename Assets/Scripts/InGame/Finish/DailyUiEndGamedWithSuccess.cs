@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DailyUiEndGamedWithSuccess : MonoBehaviour
 {
-    [SerializeField] private GameObject _successUI,_progressFiller,_coinsParticleSystem;
+    [SerializeField] private GameObject _coinsParticleSystem,_cloudsClose;
     [SerializeField] private AudioSource _source;
 
     private void Awake()
@@ -20,14 +20,26 @@ public class DailyUiEndGamedWithSuccess : MonoBehaviour
     {
         int dailyIndex = PlayerPrefs.GetInt("Daily");
         PlayerPrefs.SetInt("Daily",dailyIndex + 1);
-        yield return new WaitForSeconds(0.5f);
-        _successUI.SetActive(true);
-        yield return new WaitForSeconds(2.7f);
-        _coinsParticleSystem.gameObject.SetActive(true);
-        _progressFiller.SetActive(true);
-        _source.PlayOneShot(_source.clip);
-        yield return new WaitForSeconds(4f);
-        _successUI.SetActive(false);
-        SceneManager.LoadScene("Menu");
+        PlayerPrefs.SetInt("CountDailyLevelCompleted",PlayerPrefs.GetInt("CountDailyLevelCompleted")+1);
+        
+        yield return new WaitForSeconds(1.5f);
+
+        _cloudsClose.SetActive(true);
+
+        yield return new WaitForSeconds(1.5f);
+
+        if(PlayerPrefs.GetInt("CountDailyLevelCompleted") >= 2) 
+                        if(PlayerPrefs.GetInt("DailyLevelEnded") == 0) 
+                            PlayerPrefs.SetInt("DailyLevelEnded",1);
+        if(PlayerPrefs.GetInt("CountDailyLevelCompleted") < 2)
+        {
+                FindObjectOfType<AdsCheck>().InterAd();
+                SceneManager.LoadScene("DailyLevel_1");
+        }
+        else
+        {
+                FindObjectOfType<AdsCheck>().InterAd();
+                SceneManager.LoadScene("Menu");
+        }
     }
 }

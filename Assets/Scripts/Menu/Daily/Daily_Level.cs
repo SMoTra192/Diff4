@@ -19,12 +19,14 @@ public class Daily_Level : MonoBehaviour
         dayData = DateTime.Now.DayOfWeek.ToString();
         if (Data != dayData)
         {
+            PlayerPrefs.SetInt("CountDailyLevelCompleted", 0);
             PlayerPrefs.SetString(Day,dayData);
             PlayerPrefs.SetInt("DailyLevelEnded",0);
+            isDated.Invoke();
         }
         else
         {
-            //print("Hey"); 
+            isDated.Invoke();
         }
         
        

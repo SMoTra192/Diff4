@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -95,7 +96,7 @@ public class CloudsScript : MonoBehaviour
         completedLevelIndex = PlayerPrefs.GetInt($"LoadedLevel{PlayerPrefs.GetInt("CompletedHiddenLevels")}");
         int coins = PlayerPrefs.GetInt("CoinsAmount");
         if (completedLevelIndex == 0) PlayerPrefs.SetInt("CoinsAmount", coins - PlayerPrefs.GetInt("_coinsToUnlock"));
-
+        //FirebaseAnalytics.LogEvent("start_HiddenLevel","level","level index");
         SceneManager.LoadScene($"Hidden_Level");
 
     }

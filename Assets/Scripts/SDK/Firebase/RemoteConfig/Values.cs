@@ -24,13 +24,13 @@ public class Values : MonoBehaviour
         
             FirebaseRemoteConfig.DefaultInstance.FetchAndActivateAsync();
             var value = FirebaseRemoteConfig.DefaultInstance.GetValue("interval_time");
-            timer = (float)value.DoubleValue;
+            timer = 60f;
             
             print(timer);
             timed.Invoke();
             timed.AddListener(() =>
             {
-                timer = (float)value.DoubleValue;
+                timer = 60f;
             });
     }
 

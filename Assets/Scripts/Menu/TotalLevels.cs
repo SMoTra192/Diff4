@@ -12,7 +12,7 @@ public class TotalLevels : MonoBehaviour
 
     private void Update()
     {
-        _text.text = $"{PlayerPrefs.GetInt("LevelValue") - 2}/{contentParent.childCount}";
+        _text.text = $"{PlayerPrefs.GetInt("CompletedLevels")}/{contentParent.childCount}";
         index = contentParent.childCount;
         PlayerPrefs.SetInt("Index",index);
     }

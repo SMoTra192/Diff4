@@ -34,7 +34,6 @@ public class EntryPoint : MonoBehaviour
         
         FindObjectOfType<LevelImagesInstance>().onSpot.AddListener(() =>
         {
-            print("hello24");
             isInstanceReady = true;
         });
         if(SceneManager.GetActiveScene().name == "Level_1")

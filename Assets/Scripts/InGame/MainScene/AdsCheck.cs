@@ -50,4 +50,9 @@ public class AdsCheck : MonoBehaviour
         FindObjectOfType<RewardedAd>().ShowAd();
         
     }
+
+    public void GetTimeForInter()
+    {
+        //_values.timed.Invoke();
+    }
 }

@@ -29,19 +29,19 @@ public class ReferenceIdentification : MonoBehaviour
          pointPosition = _imageObject.PointPosition();
          GameObject Non = Instantiate(_nonRightCircle, pointPosition, quaternion.identity);
          Non.transform.SetParent(CanvasParent.transform,false);
-         print("hello");
+         
          
          
          
       });
-      //_secondImageObject.GetComponent<PointDetect2>();
+      
       _secondImageObject.ImageClicked.AddListener(() =>
       {
          pointPosition = _secondImageObject.PointPosition();
-         //print(pointPosition);
+         
          GameObject Non = Instantiate(_nonRightCircle, pointPosition, quaternion.identity);
          Non.transform.SetParent(CanvasParent.transform,false);
-         //print("Hello World");
+         
          
          
          

@@ -11,40 +11,34 @@ public class ReviewApp : MonoBehaviour
     private void Start()
     {
         _reviewManager = new ReviewManager();
+        //print($"CompletedLevels_{PlayerPrefs.GetInt("CompletedLevels")}///{PlayerPrefs.GetInt("ReviewOnce")}");
         if (PlayerPrefs.GetInt("CompletedLevels") > 5 && PlayerPrefs.GetInt("ReviewOnce") == 0)
         {
             PlayerPrefs.SetInt("ReviewOnce",1);
-            review();
-            
+            StartCoroutine(review());
         }
-        //StartCoroutine(review());
     }
 
     private IEnumerator review()
     {
-        var requestFlowOperation = _reviewManager.RequestReviewFlow();
+            var requestFlowOperation = _reviewManager.RequestReviewFlow();
         yield return requestFlowOperation;
-        if (requestFlowOperation.Error != ReviewErrorCode.NoError)
+            if (requestFlowOperation.Error != ReviewErrorCode.NoError)
         {
             // Log error. For example, using requestFlowOperation.Error.ToString().
             yield break;
         }
         _playReviewInfo = requestFlowOperation.GetResult();
-    }
-
-    private IEnumerator launchPreview()
-    {
-        var launchFlowOperation = _reviewManager.LaunchReviewFlow(_playReviewInfo);
+            var launchFlowOperation = _reviewManager.LaunchReviewFlow(_playReviewInfo);
         yield return launchFlowOperation;
-        _playReviewInfo = null; // Reset the object
+            _playReviewInfo = null; // Reset the object
         if (launchFlowOperation.Error != ReviewErrorCode.NoError)
         {
             // Log error. For example, using requestFlowOperation.Error.ToString().
             yield break;
         }
-// The flow has finished. The API does not indicate whether the user
-// reviewed or not, or even whether the review dialog was shown. Thus, no
-// matter the result, we continue our app flow.
     }
+
+     
     
 }

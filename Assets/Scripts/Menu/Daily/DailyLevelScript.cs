@@ -13,6 +13,8 @@ public class DailyLevelScript : MonoBehaviour
     [SerializeField] private GameObject completedImage, nonCompleted,completedImageWithoutAnimation,Salut,_cloudsClose;
     private void Awake()
     {
+        FindObjectOfType<Daily_Level>().isDated.AddListener(()=>
+        {
         _button = GetComponent<Button>();
         dailyIndex = PlayerPrefs.GetInt("Daily");
         int dailyLevelEnded = PlayerPrefs.GetInt("DailyLevelEnded");
@@ -34,6 +36,8 @@ public class DailyLevelScript : MonoBehaviour
             FirebaseAnalytics.LogEvent("play_daily");
             StartCoroutine(Image());
         });
+        });
+        
     }
     
     private IEnumerator Image()

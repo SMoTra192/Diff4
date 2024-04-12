@@ -14,7 +14,6 @@ public class CheckDetection : MonoBehaviour
         index = 0;
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
-            print("Hello");
             if (index < gameObject.transform.childCount)
             {
                 check = gameObject.transform.GetChild(index);

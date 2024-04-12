@@ -9,9 +9,8 @@ public class HintMech : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _AdText;
     [SerializeField] private ReferenceRightIcons _referenceRightIcons;
-    [SerializeField] private GameObject StarsImage,AdImage,ADForHint;
+    [SerializeField] private GameObject AdImage,ADForHint;
     public UnityEvent hintPressed = new();
-    private int coinAmount,AdsValue;
 
     private void Awake()
     {
@@ -20,54 +19,17 @@ public class HintMech : MonoBehaviour
 
     private void Update()
     {
-        coinAmount = PlayerPrefs.GetInt("CoinsAmount");
-        if (coinAmount >= 15)
-        {
-            StarsImage.SetActive(true);
-            _AdText.text = "15";
-        }
-        else
-        {
-            AdsValue = PlayerPrefs.GetInt("ADSDisable");
-            if (AdsValue == 0)
-            {
-                _AdText.text = "Ad";
-                AdImage.SetActive(true);
-            }
-            else
-            {
-                _AdText.text = "15";
-                StarsImage.SetActive(true);
-            }
-            //_coinObject.SetActive(false);
-            
-        }
+    
+         _AdText.text = "Ad";
+         AdImage.SetActive(true); 
     }
 
     public void Click()
     {
-        if (coinAmount >= 15)
-        {
-            _referenceRightIcons.CheckHint();
-            _referenceRightIcons.CheckHint2();
-            hintPressed.Invoke();
-            PlayerPrefs.SetInt("CoinsAmount",coinAmount - 15);
-        }
-        else
-        {
-            AdsValue = PlayerPrefs.GetInt("ADSDisable");
-            if (AdsValue == 0)
-            {
+            
                 MaxSdk.ShowRewardedAd("7da19e7b39044227");
                 _referenceRightIcons.CheckHint();
                 _referenceRightIcons.CheckHint2();
                 hintPressed.Invoke();
-            }
-            else
-            {
-                ADForHint.SetActive(true);
-            }
-            
-        }
     }
 }

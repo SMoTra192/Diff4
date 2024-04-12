@@ -101,15 +101,15 @@ print(pointsToWin);
        }
              if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true)
              {
-                 //print("succ");
+                 //
                  if (PlayerPrefs.GetInt("DailyLevelPlaying") == 1)
                  {
                      PlayerPrefs.SetInt("DailyNowLevel",PlayerPrefs.GetInt("DailyNowLevel") + 1);
-                     if(PlayerPrefs.GetInt("DailyLevelEnded") == 0) PlayerPrefs.SetInt("DailyLevelEnded",1);
                      endGamedWithDailySuccess.Invoke();
                      int DailyIndex = PlayerPrefs.GetInt("Daily");
                      PlayerPrefs.SetInt("Daily",DailyIndex + 1);
                      PlayerPrefs.SetInt("DailyLevelPlaying",0);
+                     print("succ");
                  }
                  endGamedWithSuccess.Invoke();
              }   

@@ -57,7 +57,6 @@ public class CheckEffects : MonoBehaviour
         //print($"count {_countOfEffects}");
         if(index < _countOfEffects) 
         {
-            print("AERFA");
             Check = transform.GetChild(index);
             Check.gameObject.SetActive(false);
             Check.gameObject.SetActive(true);
