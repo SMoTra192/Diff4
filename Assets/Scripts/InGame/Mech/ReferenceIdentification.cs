@@ -12,6 +12,7 @@ public class ReferenceIdentification : MonoBehaviour
    [SerializeField] private PointDetect _imageObject;
    [SerializeField] private PointDetect2 _secondImageObject;
    [SerializeField] private GameObject _nonRightCircle,CanvasParent;
+   [SerializeField]  private Animator _hintAnimation;
    private Vector3 pointPosition;
    public UnityEvent ReferenceTouched = new();
    private float _timer = 2f;
@@ -29,9 +30,9 @@ public class ReferenceIdentification : MonoBehaviour
          pointPosition = _imageObject.PointPosition();
          GameObject Non = Instantiate(_nonRightCircle, pointPosition, quaternion.identity);
          Non.transform.SetParent(CanvasParent.transform,false);
-         
-         
-         
+
+         _hintAnimation.Play("Base Layer.chill",0,0);
+
          
       });
       
@@ -42,7 +43,7 @@ public class ReferenceIdentification : MonoBehaviour
          GameObject Non = Instantiate(_nonRightCircle, pointPosition, quaternion.identity);
          Non.transform.SetParent(CanvasParent.transform,false);
          
-         
+         _hintAnimation.Play("Base Layer.chill",0,0);
          
          
       });

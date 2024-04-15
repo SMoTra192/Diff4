@@ -11,7 +11,6 @@ public class DailyCheckEffects : MonoBehaviour
     private int index;
     private Transform Check;
     public UnityEvent playedEffect = new(),endEffects = new();
-    //private bool startedEffects = false;
     private float _timer = 1f;
     
     private void Start()
@@ -26,10 +25,7 @@ public class DailyCheckEffects : MonoBehaviour
         {
             _countOfEffects = gameObject.transform.childCount; 
         }
-    
-        
-        //print(_countOfEffects);
-        //Check = transform.GetChild(index);
+
         FindObjectOfType<DailyEntryPoint>().startEndGameEffect.AddListener(() =>
         {
             
@@ -53,16 +49,15 @@ public class DailyCheckEffects : MonoBehaviour
     private IEnumerator PlayingEffect()
     {
         yield return new WaitForSeconds(timeToReactEffect);
-        //print($"count {_countOfEffects}");
+        
         if(index < _countOfEffects) 
         {
-            print("AERFA");
+
             Check = transform.GetChild(index);
             Check.gameObject.SetActive(false);
             Check.gameObject.SetActive(true);
             Vibration.VibrateAndroid(70);
-            //Check.transform.Find("Check").transform.Find("Particle").gameObject.SetActive(true);
-            //print($"started {index}");
+        
             index++;
             playedEffect.Invoke();
         }

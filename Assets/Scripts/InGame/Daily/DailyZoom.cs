@@ -74,7 +74,6 @@ _spot.onSpotNext.Invoke();
         
         
         _firstImage.transform.localScale = new Vector3(2, 2, 2);
-        print(_firstImage.transform.localScale);
         if(Input.touchCount == 1)
         {
             var touch = Input.GetTouch(0);

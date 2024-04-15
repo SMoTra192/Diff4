@@ -13,7 +13,6 @@ public class DailyLevelImagesInstance : MonoBehaviour
     void Start()
     {
         int NowLevel = PlayerPrefs.GetInt("DailyNowLevel");
-        print(NowLevel);
         _gameObject = Resources.Load<RectTransform>($"Levels/DL_1/{NowLevel}/Image1");
         RectTransform obj = Instantiate(_gameObject, transform.position, quaternion.identity);
         obj.transform.SetParent(firstimage1.gameObject.transform);

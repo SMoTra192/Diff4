@@ -19,7 +19,7 @@ public class EntryPoint : MonoBehaviour
     public UnityEvent endGamedWithSuccess = new(),startEndGameEffect = new() , endGamedWithDailySuccess = new();
     public UnityEvent Tutorialed = new();
     private bool isEndGamedWithSuccess =false;
-    private bool isFinished = false,isTimerStart = false;
+    private bool isFinished = false,isTimerStart = false,isFinishBool = false;
     private float startTime;
     private GameObject[] stars = new GameObject[3];
     
@@ -136,7 +136,7 @@ else
                 endGamed?.Invoke();
             }
 
-            if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true)
+            if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true && !isFinishBool)
             {
                 //print("succ");
                 if (PlayerPrefs.GetInt("DailyLevelPlaying") == 1)
@@ -147,8 +147,9 @@ else
                     PlayerPrefs.SetInt("Daily", DailyIndex + 1);
                     PlayerPrefs.SetInt("DailyLevelPlaying", 0);
                 }
-
+                PlayerPrefs.SetInt("CompletedLevels",PlayerPrefs.GetInt("CompletedLevels") + 1);
                 endGamedWithSuccess.Invoke();
+                isFinishBool = true;
             }
 
         }

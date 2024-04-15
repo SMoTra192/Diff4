@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AppsFlyerSDK;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AdsCheck : MonoBehaviour
 
@@ -22,8 +23,28 @@ public class AdsCheck : MonoBehaviour
     public void InterAd()
     {
         float timer = _values.Timer();
-        if (PlayerPrefs.GetInt("NowLevel") > 1)
+        
+        
+
+        if(SceneManager.GetActiveScene().name == "Level_1")
         {
+            if (PlayerPrefs.GetInt("NowLevel") > 1)
+            {
+            print(timer);
+            if (timer < 0)
+                {
+                PlayerPrefs.SetInt("Inter",PlayerPrefs.GetInt("Inter") + 1);
+                Dictionary<string, string> AFIntersEvent = new Dictionary<string, string>();
+                AFIntersEvent.Add("InterAd","1");
+                FindObjectOfType<Values>().timed.Invoke();  
+                AppsFlyer.sendEvent("af_inters",AFIntersEvent);
+                FindObjectOfType<InterstitalAd>().showInterstitalAd();
+                }
+            }
+        }
+        else
+        {
+            
             print(timer);
             if (timer < 0)
             {
@@ -34,9 +55,8 @@ public class AdsCheck : MonoBehaviour
                 AppsFlyer.sendEvent("af_inters",AFIntersEvent);
                 FindObjectOfType<InterstitalAd>().showInterstitalAd();
             }
-        }
-       
         
+        }
         
 
         

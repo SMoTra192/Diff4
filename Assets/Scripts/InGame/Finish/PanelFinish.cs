@@ -25,7 +25,7 @@ public class PanelFinish : MonoBehaviour
        if (completedLevelIndex < index)
        {
           
-          PlayerPrefs.SetInt("CompletedLevels",completedLevelIndex + 1);
+          
        }
        
    }

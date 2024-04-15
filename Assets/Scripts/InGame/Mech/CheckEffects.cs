@@ -68,4 +68,12 @@ public class CheckEffects : MonoBehaviour
         }
 
     }
+    public int CountOfEffects()
+    {
+        return _countOfEffects;
+    }
+    public int Index()
+    {
+        return index;
+    }
 }

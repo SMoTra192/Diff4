@@ -16,7 +16,7 @@ public class DailyEntryPoint : MonoBehaviour
     public UnityEvent endGamedWithSuccess = new(),startEndGameEffect = new() , endGamedWithDailySuccess = new();
     public UnityEvent Tutorialed = new();
     private bool isEndGamedWithSuccess =false;
-    private bool isFinished = false,isTimerStart = false;
+    private bool isFinished = false,isTimerStart = false,isDailyStaged = false;
     private float startTime;
     private GameObject[] stars = new GameObject[3];
     
@@ -43,18 +43,16 @@ public class DailyEntryPoint : MonoBehaviour
         _endGame.GetComponent<UIEndGame>();
         _check.GetComponent<CheckDetection>();
         endGamed.AddListener(endGameCanvas);
+        endGamed.AddListener(()=>
+        {
+            print("ADSAWDAWDA2");
+        });
 
-/*FindObjectOfType<LevelImagesInstance>().onSpot.AddListener(() =>
-{
-    pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
-    print(pointsToWin);
-});*/
+
 pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
-print(pointsToWin);
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
             _winningPoints = _check.WinningPoints();
-            print(_winningPoints);
         FindObjectOfType<DailyCheckEffects>().endEffects.AddListener(()=> isEndGamedWithSuccess = true);        
             
 
@@ -87,7 +85,6 @@ print(pointsToWin);
             startTime = time;
             isTimerStart = true;
         }
-       //
        if(stars[0] != null) stars[0].SetActive(true);
        if (time < startTime - 60f && stars[1] != null) stars[1].SetActive(false);
        if(time < startTime - 120f && stars[2] != null) stars[2].SetActive(false);
@@ -99,17 +96,21 @@ print(pointsToWin);
            FirebaseAnalytics.LogEvent("lose_level","DailyLevel","level index");
            endGamed?.Invoke();
        }
-             if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true)
+       
+             if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true )
              {
-                 //
-                 if (PlayerPrefs.GetInt("DailyLevelPlaying") == 1)
+                 
+                 if (PlayerPrefs.GetInt("DailyLevelPlaying") == 1 && !isDailyStaged)
                  {
+                     
                      PlayerPrefs.SetInt("DailyNowLevel",PlayerPrefs.GetInt("DailyNowLevel") + 1);
                      endGamedWithDailySuccess.Invoke();
+                     Tutorialed.Invoke();
                      int DailyIndex = PlayerPrefs.GetInt("Daily");
                      PlayerPrefs.SetInt("Daily",DailyIndex + 1);
-                     PlayerPrefs.SetInt("DailyLevelPlaying",0);
-                     print("succ");
+                     if(PlayerPrefs.GetInt("CountDailyLevelCompleted") >= 2) PlayerPrefs.SetInt("DailyLevelPlaying",0);
+                     isDailyStaged = true;
+                     
                  }
                  endGamedWithSuccess.Invoke();
              }   

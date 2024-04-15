@@ -8,24 +8,19 @@ public class Tutorial : MonoBehaviour , IPointerDownHandler
 {
     
     [SerializeField] private GameObject tutorialObj,tutorialObj2,obj3;
-    [SerializeField] private GameObject panelFinishObj;
+
     private bool isObj2Touched = false;
     void Start()
     {
         if (PlayerPrefs.GetInt("Tutorial") >= 1)
         {
             gameObject.SetActive(false);
-            if(panelFinishObj != null) panelFinishObj.SetActive(false);
         }
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
            if(gameObject.activeInHierarchy) StartCoroutine(wait());
         });
-        FindObjectOfType<EntryPoint>().Tutorialed.AddListener(() =>
-        {
-            if(panelFinishObj != null) panelFinishObj.SetActive(true);
-            PlayerPrefs.SetInt("Tutorial",2);
-        });
+        
         FindObjectOfType<ReferenceIdentification>().ReferenceTouched.AddListener(() =>
         {
             if (obj3.activeInHierarchy)
