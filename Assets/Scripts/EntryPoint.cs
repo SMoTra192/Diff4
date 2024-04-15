@@ -42,9 +42,7 @@ public class EntryPoint : MonoBehaviour
         {
             GameObject.Find("Canvas").transform.GetChild(4).gameObject.SetActive(true);
         }
-        stars[0] = GameObject.Find("Star");
-        stars[2] = GameObject.Find("Star 2");
-        stars[1] = GameObject.Find("Star Big");
+  
         if(GameObject.Find("FinishUI") != null) GameObject.Find("FinishUI").SetActive(false);
         //print(stars[0].name);
         _timer.GetComponent<Timer>();
@@ -107,24 +105,6 @@ else
                 isTimerStart = true;
             }
 
-            //
-            if (stars[0] != null) stars[0].SetActive(true);
-            if (time < startTime - 60f && stars[1] != null)
-            {
-                stars[1].SetActive(false);
-            }
-
-            if (time < startTime - 120f && stars[2] != null)
-            {
-                stars[2].SetActive(false);
-            }
-
-            if (time > startTime - 180f) PlayerPrefs.SetInt("CoinToGive", 1);
-            if (time > startTime - 120f) PlayerPrefs.SetInt("CoinToGive", 2);
-            if (time > startTime - 60f) PlayerPrefs.SetInt("CoinToGive", 3);
-
-
-
             if (time < 1f)
             {
                 if (PlayerPrefs.GetInt("LoseLevel") == 0)
@@ -138,15 +118,6 @@ else
 
             if (_winningPoints == pointsToWin && isEndGamedWithSuccess == true && !isFinishBool)
             {
-                //print("succ");
-                if (PlayerPrefs.GetInt("DailyLevelPlaying") == 1)
-                {
-                    if (PlayerPrefs.GetInt("DailyLevelEnded") == 0) PlayerPrefs.SetInt("DailyLevelEnded", 1);
-                    endGamedWithDailySuccess.Invoke();
-                    int DailyIndex = PlayerPrefs.GetInt("Daily");
-                    PlayerPrefs.SetInt("Daily", DailyIndex + 1);
-                    PlayerPrefs.SetInt("DailyLevelPlaying", 0);
-                }
                 PlayerPrefs.SetInt("CompletedLevels",PlayerPrefs.GetInt("CompletedLevels") + 1);
                 endGamedWithSuccess.Invoke();
                 isFinishBool = true;
