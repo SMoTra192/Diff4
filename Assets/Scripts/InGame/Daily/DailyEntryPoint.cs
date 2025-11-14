@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -72,7 +71,6 @@ pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
         
         if (_winningPoints == pointsToWin && timerForFinishStart < 0 && isFinished == false)
         {
-            FirebaseAnalytics.LogEvent("win_level","level","level index");
            // print("sucC");
             if(_counter != null)_counter.SetActive(true);
             _sourceDiffIcons.Play();
@@ -93,7 +91,6 @@ pointsToWin = FindObjectOfType<CheckDetection>().transform.childCount;
 
        if (time < 1f)
        {
-           FirebaseAnalytics.LogEvent("lose_level","DailyLevel","level index");
            endGamed?.Invoke();
        }
        

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,7 +32,6 @@ public class DailyLevelScript : MonoBehaviour
         _button.onClick.AddListener(() =>
         {
             PlayerPrefs.SetInt("DailyLevelPlaying", 1);
-            FirebaseAnalytics.LogEvent("play_daily");
             StartCoroutine(Image());
         });
         });

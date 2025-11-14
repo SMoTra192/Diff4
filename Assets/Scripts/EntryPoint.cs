@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Firebase.Analytics;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -90,7 +89,6 @@ else
 
             if (_winningPoints == pointsToWin && timerForFinishStart < 0 && isFinished == false)
             {
-                FirebaseAnalytics.LogEvent("win_level", "level", "level index");
                 // print("sucC");
                 if (_counter != null) _counter.SetActive(true);
                 _sourceDiffIcons.Play();
@@ -110,7 +108,6 @@ else
                 if (PlayerPrefs.GetInt("LoseLevel") == 0)
                 {
                     PlayerPrefs.SetInt("LoseLevel", 1);
-                    FirebaseAnalytics.LogEvent("lose_level", "level", "level index");
                 }
 
                 endGamed?.Invoke();
