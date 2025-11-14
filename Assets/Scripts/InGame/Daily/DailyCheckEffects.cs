@@ -56,8 +56,7 @@ public class DailyCheckEffects : MonoBehaviour
             Check = transform.GetChild(index);
             Check.gameObject.SetActive(false);
             Check.gameObject.SetActive(true);
-            Vibration.VibrateAndroid(70);
-        
+            Vibration.VibratePop();
             index++;
             playedEffect.Invoke();
         }

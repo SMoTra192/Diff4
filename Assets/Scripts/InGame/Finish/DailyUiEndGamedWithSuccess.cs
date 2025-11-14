@@ -32,12 +32,10 @@ public class DailyUiEndGamedWithSuccess : MonoBehaviour
 
         if(PlayerPrefs.GetInt("CountDailyLevelCompleted") < 2)
         {
-                FindObjectOfType<AdsCheck>().InterAd();
                 SceneManager.LoadScene("DailyLevel_1");
         }
         else
         {
-                FindObjectOfType<AdsCheck>().InterAd();
                 SceneManager.LoadScene("Menu");
         }
     }

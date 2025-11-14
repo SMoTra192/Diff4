@@ -60,7 +60,7 @@ public class CheckEffects : MonoBehaviour
             Check = transform.GetChild(index);
             Check.gameObject.SetActive(false);
             Check.gameObject.SetActive(true);
-            Vibration.VibrateAndroid(70);
+            Vibration.VibratePop();
             //Check.transform.Find("Check").transform.Find("Particle").gameObject.SetActive(true);
             //print($"started {index}");
             index++;

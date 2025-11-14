@@ -12,11 +12,11 @@ public class VibrationOnEnable : MonoBehaviour
 
     private void OnEnable()
     {
-        Vibration.VibrateAndroid(35);
+        Vibration.VibratePop();
     }
 
     public void Vibrate()
     {
-        Vibration.VibrateAndroid(35);
+        Vibration.VibratePop();
     }
 }

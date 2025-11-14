@@ -56,7 +56,7 @@ public class DailyTimer : MonoBehaviour
         {
             if (isTimed == false)
             {
-                Vibration.VibrateAndroid(500);
+                Vibration.VibratePop();
                 isTimed = true;
             }
             _firstminute.color = Color.red;

@@ -27,7 +27,6 @@ public class HintMech : MonoBehaviour
     public void Click()
     {
             
-                MaxSdk.ShowRewardedAd("7da19e7b39044227");
                 _referenceRightIcons.CheckHint();
                 _referenceRightIcons.CheckHint2();
                 hintPressed.Invoke();
