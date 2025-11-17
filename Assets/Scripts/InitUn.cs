@@ -8,11 +8,10 @@ using UnityEngine.AddressableAssets;
 public class InitUn : MonoBehaviour
 {
     
-    private void Awake()
-    {
-        Addressables.LoadSceneAsync("Loading");
-    }
-
+private void Awake() 
+{
+SceneManager.LoadScene("Loading");  
+}
     
 
     
