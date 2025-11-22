@@ -19,57 +19,70 @@ public class LevelImagesInstance : MonoBehaviour
      void Start()
     {
         NowLevel = PlayerPrefs.GetInt("NowLevel");
-        //print(NowLevel);
         StartCoroutine(instASync());
     }
     private IEnumerator instASync()
     {
         _clouds[0].SetActive(true);
-        AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>($"Assets/GameImages/NowLevels/{NowLevel}/Image1.prefab");
+        GameObject instance1 = null;
+        Debug.Log(NowLevel);
+        ResourceRequest Object = Resources.LoadAsync<GameObject>($"GameImages/NowLevels/{NowLevel}/Image1");
+        yield return Object;
         
-        if(handle.Status == AsyncOperationStatus.Failed) 
-
+            if(Object.asset == null)
         {
             Debug.Log("NotCompleted");
+            Debug.LogError("FirstPicture component not found");
             Application.Quit();
         }
 
         else
 
         {
-            //Debug.Log("Completed");
+            instance1 = Instantiate(Object.asset as GameObject, firstimage1.transform);
+            
         }
-        yield return Addressables.InstantiateAsync($"Assets/GameImages/NowLevels/{NowLevel}/Image1.prefab",parent:firstimage1.transform,true);
-
-        GameObject gm = FindObjectOfType<FirstPicture>().gameObject;
-        gm.transform.localScale = new Vector3(1, 1, 1);
-        RectTransform rect = gm.GetComponent<RectTransform>();
-        rect.anchoredPosition = new Vector2(0, 0);
-
-        AsyncOperationHandle<GameObject> handle2 = Addressables.LoadAssetAsync<GameObject>($"Assets/GameImages/NowLevels/{NowLevel}/Image2.prefab");
         
-        if(handle2.Status == AsyncOperationStatus.Failed) 
+        FirstPicture firstPicture = instance1.GetComponent<FirstPicture>();
+        SetupImageTransform(firstPicture.gameObject);
+        //gm.transform.localScale = new Vector3(1, 1, 1);
+        //RectTransform rect = gm.GetComponent<RectTransform>();
+        //rect.anchoredPosition = new Vector2(0, 0);
+
+        ResourceRequest Object2 = Resources.LoadAsync<GameObject>($"GameImages/NowLevels/{NowLevel}/Image2");
+        yield return Object2;
+        GameObject instance2 = null;
+
+        if(Object2.asset == null) 
         {
             Debug.Log("NotCompleted");
+            Debug.LogError("SecondPicture component not found");
             Application.Quit();
         }
 
         else
 
         {
-            //Debug.Log("Completed");
+            instance2 = Instantiate(Object2.asset as GameObject, secondimage2.transform);
         }
 
-        yield return Addressables.InstantiateAsync($"Assets/GameImages/NowLevels/{NowLevel}/Image2.prefab",parent:secondimage2.transform,true);
-        gm = FindObjectOfType<SecondPicture>().gameObject;
-        gm.transform.localScale = new Vector3(1, 1, 1);
-        rect = gm.GetComponent<RectTransform>();
-        rect.anchoredPosition = new Vector2(0, 0);
-        //_animator.Play();
+        SecondPicture secondPicture = instance2.GetComponent<SecondPicture>();
+        SetupImageTransform(secondPicture.gameObject);
         _clouds[1].SetActive(true);
         _clouds[0].SetActive(false);
         
         onSpot.Invoke();
     }
     
+    private void SetupImageTransform(GameObject gm)
+    {
+        if(gm == null) return;
+        
+        gm.transform.localScale = new Vector3(1, 1, 1);
+        RectTransform rect = gm.GetComponent<RectTransform>();
+        if(rect != null)
+        {
+            rect.anchoredPosition = new Vector2(0, 0);
+        }
+    }
 }
