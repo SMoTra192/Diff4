@@ -13,8 +13,8 @@ public class LevelPositionMenu : MonoBehaviour
     // Start is called before the first frame update 185
     void Start()
     {
+        content.sizeDelta = new Vector2(content.sizeDelta.x,PlayerPrefs.GetInt("Index")*200);
         pos = content.anchoredPosition;
-        
         completedLevels = PlayerPrefs.GetInt("CompletedLevels");
         var comp = Math.Round((decimal)completedLevels  / 2);
         //print(comp);
