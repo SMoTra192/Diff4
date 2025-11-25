@@ -13,11 +13,10 @@ public class LevelPositionMenu : MonoBehaviour
     // Start is called before the first frame update 185
     void Start()
     {
-        content.sizeDelta = new Vector2(content.sizeDelta.x,PlayerPrefs.GetInt("Index")*200);
+        content.sizeDelta = new Vector2(content.sizeDelta.x,content.transform.GetChild(0).transform.childCount * 200 );
         pos = content.anchoredPosition;
         completedLevels = PlayerPrefs.GetInt("CompletedLevels");
         var comp = Math.Round((decimal)completedLevels  / 2);
-        //print(comp);
         
         if(completedLevels/2 == comp) content.anchoredPosition = new Vector3(pos.x,
             pos.y + (385f * completedLevels / 2) - 385f);
@@ -33,13 +32,7 @@ public class LevelPositionMenu : MonoBehaviour
             pos.y);  
         if (completedLevels == 1) content.anchoredPosition = new Vector3(pos.x,
             pos.y);    
-        //content.anchoredPosition = new Vector3(content.anchoredPosition.x,
-            //content.anchoredPosition.y + (75f * completedLevels));
-        
     }
 
-    private void Update()
-    {
-        
-    }
+
 }
