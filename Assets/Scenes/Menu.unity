@@ -1196,12 +1196,12 @@ GameObject:
   m_Component:
   - component: {fileID: 86151759}
   m_Layer: 0
-  m_Name: ADS
+  m_Name: ADS - if going to use IAP from google
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &86151759
 Transform:
   m_ObjectHideFlags: 0
@@ -2728,7 +2728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5056213103020795857, guid: 198a17ac3cedbee47ad28d598f721d27, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39304,37 +39304,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38f101ce53d568245be8454ccbdfe0bc, type: 3}
---- !u!1 &1805908533
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1805908535}
-  m_Layer: 0
-  m_Name: CheckPurshases
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1805908535
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805908533}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4837573, y: -2.6585808, z: 2.246089}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810284022
 GameObject:
   m_ObjectHideFlags: 0
@@ -39850,14 +39819,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1822847325}
   - component: {fileID: 1822847327}
-  - component: {fileID: 1822847326}
   m_Layer: 5
   m_Name: Disable_ADS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1822847325
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39877,58 +39845,6 @@ RectTransform:
   m_AnchoredPosition: {x: 74224.82, y: -185084.06}
   m_SizeDelta: {x: 112.83313, y: 72.440674}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1822847326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822847324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  productId: com.findit.difference.puzzle.removeads
-  buttonType: 0
-  consumePurchase: 1
-  onTransactionsRestored:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CheckPurchases, Assembly-CSharp
-        m_MethodName: onPurchaseCompleted
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CheckPurchases, Assembly-CSharp
-        m_MethodName: OnPurchaseFailed
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onProductFetched:
-    m_PersistentCalls:
-      m_Calls: []
-  button: {fileID: 11020268}
 --- !u!114 &1822847327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47471,5 +47387,4 @@ SceneRoots:
   - {fileID: 1351498028}
   - {fileID: 1598998631}
   - {fileID: 1210845833}
-  - {fileID: 1805908535}
   - {fileID: 1822847325}
