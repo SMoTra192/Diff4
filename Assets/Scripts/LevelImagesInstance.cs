@@ -45,9 +45,6 @@ public class LevelImagesInstance : MonoBehaviour
         
         FirstPicture firstPicture = instance1.GetComponent<FirstPicture>();
         SetupImageTransform(firstPicture.gameObject);
-        //gm.transform.localScale = new Vector3(1, 1, 1);
-        //RectTransform rect = gm.GetComponent<RectTransform>();
-        //rect.anchoredPosition = new Vector2(0, 0);
 
         ResourceRequest Object2 = Resources.LoadAsync<GameObject>($"GameImages/NowLevels/{NowLevel}/Image2");
         yield return Object2;
