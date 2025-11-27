@@ -16,13 +16,13 @@ public class Loading : MonoBehaviour
             Debug.Log("FirstChecked");
             isInternetChecked = true;
         });
-        FindObjectOfType<LoadingAssets>().LoadingCompleted.AddListener(() =>
+        /*FindObjectOfType<LoadingAssets>().LoadingCompleted.AddListener(() =>
         {
             isDownloadBundlesCompleted = true;
             Debug.Log("SecondChecked");
-        }); 
+        }); */
         yield return new WaitUntil(() => isInternetChecked);
-        yield return new WaitUntil(() => isDownloadBundlesCompleted);
+        //yield return new WaitUntil(() => isDownloadBundlesCompleted);
         
 
         StartCoroutine(PanelOff());
